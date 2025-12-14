@@ -1,0 +1,112 @@
+{
+  "name": "katheeb",
+  "display_name": "كثيب - عنوان الفخامة",
+  "version": "1.0.0",
+  "author": "Katheeb Team",
+  "description": "قالب فاخر للأزياء والماركات العالمية",
+  "preview_image": "assets/images/preview.png",
+  "support_url": "https://katheeb.sa/support",
+  "documentation_url": "https://katheeb.sa/docs",
+  "settings": {
+    "colors": {
+      "label": "الألوان",
+      "settings": {
+        "primary_color": {
+          "type": "color",
+          "label": "اللون الرئيسي",
+          "default": "#C9A96E"
+        },
+        "secondary_color": {
+          "type": "color",
+          "label": "اللون الثانوي",
+          "default": "#222222"
+        },
+        "background_color": {
+          "type": "color",
+          "label": "لون الخلفية",
+          "default": "#FAFAFA"
+        },
+        "sale_color": {
+          "type": "color",
+          "label": "لون التخفيضات",
+          "default": "#C41E3A"
+        }
+      }
+    },
+    "typography": {
+      "label": "الخطوط",
+      "settings": {
+        "font_family": {
+          "type": "select",
+          "label": "نوع الخط",
+          "default": "Readex Pro",
+          "options": [
+            {"value": "Readex Pro", "label": "Readex Pro"},
+            {"value": "Cairo", "label": "Cairo"},
+            {"value": "Tajawal", "label": "Tajawal"}
+          ]
+        }
+      }
+    },
+    "header": {
+      "label": "الهيدر",
+      "settings": {
+        "sticky_header": {
+          "type": "checkbox",
+          "label": "هيدر ثابت",
+          "default": true
+        },
+        "show_top_bar": {
+          "type": "checkbox",
+          "label": "إظهار الشريط العلوي",
+          "default": true
+        },
+        "top_bar_text": {
+          "type": "text",
+          "label": "نص الشريط العلوي",
+          "default": "شحن مجاني للطلبات فوق 500 ر.س"
+        }
+      }
+    },
+    "homepage": {
+      "label": "الصفحة الرئيسية",
+      "settings": {
+        "show_hero": {
+          "type": "checkbox",
+          "label": "إظهار البانر الرئيسي",
+          "default": true
+        },
+        "products_per_row": {
+          "type": "select",
+          "label": "عدد المنتجات في الصف",
+          "default": "4",
+          "options": [
+            {"value": "3", "label": "3 منتجات"},
+            {"value": "4", "label": "4 منتجات"},
+            {"value": "5", "label": "5 منتجات"}
+          ]
+        },
+        "show_newsletter": {
+          "type": "checkbox",
+          "label": "إظهار النشرة البريدية",
+          "default": true
+        }
+      }
+    },
+    "footer": {
+      "label": "الفوتر",
+      "settings": {
+        "show_social_links": {
+          "type": "checkbox",
+          "label": "إظهار روابط التواصل",
+          "default": true
+        },
+        "footer_text": {
+          "type": "text",
+          "label": "نص حقوق النشر",
+          "default": "جميع الحقوق محفوظة © كثيب 2024"
+        }
+      }
+    }
+  }
+}
