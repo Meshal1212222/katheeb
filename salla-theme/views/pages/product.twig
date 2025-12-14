@@ -1,0 +1,253 @@
+{% extends 'layouts/master.twig' %}
+
+{% block title %}{{ product.name }} | {{ store.name }}{% endblock %}
+
+{% block content %}
+
+{# Breadcrumb #}
+<nav class="breadcrumb">
+    <a href="{{ link('home') }}">الرئيسية</a>
+    <span>/</span>
+    {% if product.category %}
+    <a href="{{ product.category.url }}">{{ product.category.name }}</a>
+    <span>/</span>
+    {% endif %}
+    <span>{{ product.name }}</span>
+</nav>
+
+<div class="product-page">
+    {# Product Gallery #}
+    <div class="product-gallery">
+        <div class="gallery-main">
+            <img id="main-image" src="{{ product.image }}" alt="{{ product.name }}">
+            {% if product.is_on_sale %}
+            <span class="product-badge sale">{{ product.discount_percentage }}%-</span>
+            {% endif %}
+        </div>
+        {% if product.images | length > 1 %}
+        <div class="gallery-thumbs">
+            {% for image in product.images %}
+            <div class="thumb {% if loop.first %}active{% endif %}" onclick="changeImage('{{ image }}', this)">
+                <img src="{{ image }}" alt="{{ product.name }}">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {# Product Info #}
+    <div class="product-details">
+        {# Brand #}
+        {% if product.brand %}
+        <a href="{{ product.brand.url }}" class="product-brand-link">{{ product.brand.name }}</a>
+        {% endif %}
+
+        {# Title #}
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        {# Rating #}
+        {% if product.rating > 0 %}
+        <div class="product-rating-section">
+            <div class="stars">
+                {% for i in 1..5 %}
+                    <svg class="star {% if i <= product.rating %}filled{% endif %}" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                {% endfor %}
+            </div>
+            <span class="rating-count">({{ product.reviews_count }} تقييم)</span>
+        </div>
+        {% endif %}
+
+        {# Price #}
+        <div class="product-price-section">
+            <span class="current-price">{{ product.price }} {{ store.currency }}</span>
+            {% if product.is_on_sale %}
+            <span class="old-price">{{ product.regular_price }} {{ store.currency }}</span>
+            <span class="discount-badge">وفر {{ product.discount_amount }} {{ store.currency }}</span>
+            {% endif %}
+        </div>
+
+        {# Short Description #}
+        {% if product.short_description %}
+        <p class="product-short-desc">{{ product.short_description }}</p>
+        {% endif %}
+
+        {# Product Form #}
+        <form id="product-form" onsubmit="salla.cart.add(event)">
+            {# Options (Colors, Sizes, etc.) #}
+            {% for option in product.options %}
+            <div class="product-option">
+                <label>{{ option.name }}</label>
+                <div class="option-values {% if option.type == 'color' %}color-options{% else %}size-options{% endif %}">
+                    {% for value in option.values %}
+                        {% if option.type == 'color' %}
+                        <button type="button"
+                                class="color-btn"
+                                style="background-color: {{ value.color }}"
+                                data-option="{{ option.id }}"
+                                data-value="{{ value.id }}"
+                                onclick="selectOption(this)">
+                        </button>
+                        {% else %}
+                        <button type="button"
+                                class="size-btn"
+                                data-option="{{ option.id }}"
+                                data-value="{{ value.id }}"
+                                onclick="selectOption(this)">
+                            {{ value.name }}
+                        </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+            {# Quantity #}
+            <div class="quantity-section">
+                <label>الكمية</label>
+                <div class="quantity-control">
+                    <button type="button" onclick="updateQuantity(-1)">-</button>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.quantity }}">
+                    <button type="button" onclick="updateQuantity(1)">+</button>
+                </div>
+                {% if product.quantity < 10 %}
+                <span class="stock-warning">متبقي {{ product.quantity }} فقط!</span>
+                {% endif %}
+            </div>
+
+            {# Add to Cart Buttons #}
+            <div class="product-actions">
+                <button type="submit" class="btn-add-cart">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                    </svg>
+                    أضف للسلة
+                </button>
+                <button type="button" class="btn-buy-now" onclick="salla.cart.buyNow(event)">
+                    اشتري الآن
+                </button>
+            </div>
+
+            {# Wishlist #}
+            <button type="button" class="btn-wishlist" onclick="salla.wishlist.toggle({{ product.id }})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                أضف للمفضلة
+            </button>
+        </form>
+
+        {# Express Checkout #}
+        <div class="express-checkout">
+            {{ salla.apple_pay_button() }}
+            {{ salla.tamara_widget() }}
+        </div>
+
+        {# Product Features #}
+        <div class="product-features">
+            <div class="feature">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                </svg>
+                <span>شحن مجاني</span>
+            </div>
+            <div class="feature">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span>منتج أصلي 100%</span>
+            </div>
+            <div class="feature">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                <span>إرجاع خلال 14 يوم</span>
+            </div>
+        </div>
+
+        {# Accordion - Product Details #}
+        <div class="product-accordion">
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>تفاصيل المنتج</span>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="accordion-content">
+                    {{ product.description | raw }}
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>معلومات الشحن</span>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="accordion-content">
+                    <p>التوصيل خلال 1-3 أيام عمل للمدن الرئيسية</p>
+                    <p>الشحن مجاني للطلبات فوق 500 ر.س</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>سياسة الإرجاع</span>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="accordion-content">
+                    <p>يمكنك إرجاع المنتج خلال 14 يوم من تاريخ الاستلام</p>
+                    <p>يجب أن يكون المنتج بحالته الأصلية مع جميع الملحقات</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Related Products #}
+{% if related_products | length > 0 %}
+<section class="products-section related-products">
+    <div class="section-header">
+        <h2 class="section-title">منتجات مشابهة</h2>
+    </div>
+    <div class="products-scroll">
+        {% for product in related_products %}
+            {% include 'components/product-card.twig' with {'product': product} %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function changeImage(src, thumb) {
+    document.getElementById('main-image').src = src;
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+}
+
+function selectOption(btn) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function updateQuantity(delta) {
+    const input = document.getElementById('quantity');
+    const newVal = parseInt(input.value) + delta;
+    if (newVal >= 1 && newVal <= parseInt(input.max)) {
+        input.value = newVal;
+    }
+}
+
+function toggleAccordion(btn) {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+}
+</script>
+{% endblock %}

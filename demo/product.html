@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حقيبة GG Marmont | كثيب KATHEEB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#FAFAFA; --text:#222; --accent:#C9A96E; --light:#F5F5F5; --border:#E5E5E5; --success:#2E7D32; --error:#C41E3A; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Readex Pro',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+        a { text-decoration:none; color:inherit; }
+
+        /* Header */
+        .header { background:white; padding:20px 40px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+        .logo img { height:50px; }
+        .header-icons { display:flex; gap:20px; align-items:center; }
+        .header-icon { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; }
+        .header-icon svg { width:22px; height:22px; stroke:var(--text); stroke-width:1.5; fill:none; }
+        .header-icon:hover { color:var(--accent); }
+        .header-icon:hover svg { stroke:var(--accent); }
+        .cart-count { background:var(--text); color:white; font-size:10px; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+        /* Breadcrumb */
+        .breadcrumb { padding:15px 40px; background:white; border-bottom:1px solid var(--border); font-size:13px; color:#888; }
+        .breadcrumb a:hover { color:var(--accent); }
+        .breadcrumb span { margin:0 8px; }
+
+        /* Product Section */
+        .product-section { display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1400px; margin:40px auto; padding:0 40px; }
+
+        /* Product Gallery */
+        .product-gallery { display:flex; gap:20px; }
+        .gallery-thumbs { display:flex; flex-direction:column; gap:12px; }
+        .thumb { width:80px; height:80px; border:2px solid var(--border); border-radius:8px; overflow:hidden; cursor:pointer; transition:all 0.3s; }
+        .thumb:hover, .thumb.active { border-color:var(--accent); }
+        .thumb img { width:100%; height:100%; object-fit:cover; }
+        .gallery-main { flex:1; position:relative; }
+        .main-image { width:100%; aspect-ratio:1; border-radius:12px; overflow:hidden; background:var(--light); }
+        .main-image img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
+        .main-image:hover img { transform:scale(1.05); }
+        .wishlist-btn { position:absolute; top:20px; left:20px; width:45px; height:45px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 3px 15px rgba(0,0,0,0.1); transition:all 0.3s; }
+        .wishlist-btn:hover { transform:scale(1.1); }
+        .wishlist-btn svg { width:22px; height:22px; stroke:var(--text); fill:none; }
+        .wishlist-btn:hover svg { stroke:var(--error); fill:var(--error); }
+        .badge { position:absolute; top:20px; right:20px; background:var(--accent); color:white; padding:8px 16px; border-radius:5px; font-size:12px; font-weight:500; }
+
+        /* Product Info */
+        .product-info { padding:20px 0; }
+        .product-brand { font-size:14px; color:#888; letter-spacing:2px; margin-bottom:10px; }
+        .product-title { font-size:32px; font-weight:600; margin-bottom:15px; line-height:1.3; }
+        .product-rating { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+        .stars { color:var(--accent); font-size:16px; }
+        .rating-count { font-size:13px; color:#888; }
+        .product-price { margin-bottom:25px; }
+        .current-price { font-size:32px; font-weight:600; color:var(--text); }
+        .old-price { font-size:18px; color:#999; text-decoration:line-through; margin-right:15px; }
+        .discount-badge { background:var(--error); color:white; padding:5px 12px; border-radius:5px; font-size:12px; font-weight:500; margin-right:15px; }
+        .tax-note { font-size:12px; color:#888; margin-top:8px; }
+
+        .product-desc { font-size:14px; color:#666; line-height:1.8; margin-bottom:30px; padding-bottom:25px; border-bottom:1px solid var(--border); }
+
+        /* Options */
+        .option-group { margin-bottom:25px; }
+        .option-label { font-size:14px; font-weight:500; margin-bottom:12px; display:flex; justify-content:space-between; }
+        .option-label a { color:var(--accent); font-size:13px; }
+        .color-options { display:flex; gap:12px; }
+        .color-option { width:40px; height:40px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:all 0.3s; position:relative; }
+        .color-option:hover, .color-option.active { border-color:var(--accent); transform:scale(1.1); }
+        .color-option.active::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; font-size:14px; }
+        .size-options { display:flex; gap:10px; flex-wrap:wrap; }
+        .size-option { min-width:60px; padding:12px 20px; border:2px solid var(--border); border-radius:8px; text-align:center; cursor:pointer; font-size:14px; transition:all 0.3s; }
+        .size-option:hover { border-color:var(--accent); }
+        .size-option.active { background:var(--text); color:white; border-color:var(--text); }
+        .size-option.disabled { opacity:0.4; cursor:not-allowed; }
+
+        /* Quantity */
+        .quantity-selector { display:flex; align-items:center; gap:15px; margin-bottom:30px; }
+        .quantity-label { font-size:14px; font-weight:500; }
+        .quantity-controls { display:flex; align-items:center; border:2px solid var(--border); border-radius:8px; overflow:hidden; }
+        .qty-btn { width:45px; height:45px; background:var(--light); border:none; font-size:20px; cursor:pointer; transition:all 0.3s; }
+        .qty-btn:hover { background:var(--accent); color:white; }
+        .qty-input { width:60px; height:45px; border:none; text-align:center; font-size:16px; font-family:inherit; }
+        .qty-input:focus { outline:none; }
+
+        /* Buttons */
+        .action-buttons { display:flex; gap:15px; margin-bottom:30px; }
+        .btn-primary { flex:1; padding:18px 30px; background:var(--accent); color:white; border:none; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:10px; }
+        .btn-primary:hover { background:#b8983f; transform:translateY(-2px); box-shadow:0 5px 25px rgba(201,169,110,0.4); }
+        .btn-primary svg { width:22px; height:22px; }
+        .btn-secondary { padding:18px 30px; background:white; color:var(--text); border:2px solid var(--text); border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.3s; }
+        .btn-secondary:hover { background:var(--text); color:white; }
+
+        /* Express Checkout */
+        .express-checkout { margin-bottom:30px; padding:25px; background:var(--light); border-radius:12px; }
+        .express-title { font-size:13px; color:#888; text-align:center; margin-bottom:15px; }
+        .express-buttons { display:flex; gap:12px; }
+        .express-btn { flex:1; padding:14px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .apple-pay { background:#000; color:white; }
+        .tamara { background:#3EBFAE; color:white; }
+
+        /* Features */
+        .product-features { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:30px; padding:25px; background:white; border-radius:12px; border:1px solid var(--border); }
+        .feature-item { display:flex; align-items:center; gap:12px; font-size:13px; }
+        .feature-item svg { width:24px; height:24px; stroke:var(--success); flex-shrink:0; }
+
+        /* Accordion */
+        .accordion { border-top:1px solid var(--border); }
+        .accordion-item { border-bottom:1px solid var(--border); }
+        .accordion-header { padding:20px 0; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-size:15px; font-weight:500; }
+        .accordion-header svg { width:20px; height:20px; transition:transform 0.3s; }
+        .accordion-item.open .accordion-header svg { transform:rotate(180deg); }
+        .accordion-content { max-height:0; overflow:hidden; transition:max-height 0.3s; }
+        .accordion-item.open .accordion-content { max-height:500px; }
+        .accordion-inner { padding-bottom:20px; font-size:14px; color:#666; line-height:1.8; }
+
+        /* Related Products */
+        .related-section { max-width:1400px; margin:60px auto; padding:0 40px; }
+        .section-title { font-size:24px; font-weight:600; margin-bottom:30px; }
+        .products-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:25px; }
+        .product-card { background:white; border-radius:12px; overflow:hidden; transition:all 0.3s; }
+        .product-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+        .card-image { position:relative; aspect-ratio:1; overflow:hidden; }
+        .card-image img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
+        .product-card:hover .card-image img { transform:scale(1.05); }
+        .card-wishlist { position:absolute; top:12px; left:12px; width:36px; height:36px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; opacity:0; transition:all 0.3s; cursor:pointer; }
+        .product-card:hover .card-wishlist { opacity:1; }
+        .card-wishlist svg { width:18px; height:18px; stroke:var(--text); fill:none; }
+        .card-info { padding:20px; }
+        .card-brand { font-size:11px; color:#999; letter-spacing:1px; margin-bottom:5px; }
+        .card-name { font-size:14px; margin-bottom:10px; }
+        .card-price { font-size:16px; font-weight:600; }
+
+        /* Footer */
+        .footer { background:var(--text); color:white; padding:40px; margin-top:60px; text-align:center; }
+        .footer-logo img { height:40px; filter:brightness(0) invert(1); margin-bottom:20px; }
+        .footer-text { font-size:13px; opacity:0.7; }
+
+        /* Responsive */
+        @media (max-width:1024px) {
+            .product-section { grid-template-columns:1fr; gap:40px; }
+            .products-grid { grid-template-columns:repeat(2,1fr); }
+        }
+        @media (max-width:768px) {
+            .header { padding:15px 20px; }
+            .logo img { height:40px; }
+            .breadcrumb { padding:12px 20px; }
+            .product-section { padding:0 20px; margin:20px auto; }
+            .product-gallery { flex-direction:column-reverse; }
+            .gallery-thumbs { flex-direction:row; justify-content:center; }
+            .product-title { font-size:24px; }
+            .current-price { font-size:26px; }
+            .action-buttons { flex-direction:column; }
+            .express-buttons { flex-direction:column; }
+            .product-features { grid-template-columns:1fr; }
+            .products-grid { grid-template-columns:repeat(2,1fr); gap:15px; }
+            .related-section { padding:0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="كثيب KATHEEB"></a>
+        <div class="header-icons">
+            <div class="header-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+            <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div class="header-icon"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count">2</span></div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">الرئيسية</a><span>›</span>
+        <a href="#">نساء</a><span>›</span>
+        <a href="#">حقائب</a><span>›</span>
+        <span style="color:var(--text);">حقيبة GG Marmont</span>
+    </div>
+
+    <!-- Product Section -->
+    <section class="product-section">
+        
+        <!-- Gallery -->
+        <div class="product-gallery">
+            <div class="gallery-thumbs">
+                <div class="thumb active"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200" alt=""></div>
+                <div class="thumb"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200" alt=""></div>
+                <div class="thumb"><img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=200" alt=""></div>
+                <div class="thumb"><img src="https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=200" alt=""></div>
+            </div>
+            <div class="gallery-main">
+                <div class="main-image"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800" alt="حقيبة GG Marmont" id="mainImg"></div>
+                <div class="wishlist-btn"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                <div class="badge">جديد</div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <div class="product-brand">GUCCI</div>
+            <h1 class="product-title">حقيبة GG Marmont جلد ماتيلاسيه</h1>
+            
+            <div class="product-rating">
+                <div class="stars">★★★★★</div>
+                <div class="rating-count">(128 تقييم)</div>
+            </div>
+
+            <div class="product-price">
+                <span class="current-price">8,500 ر.س</span>
+                <span class="old-price">10,200 ر.س</span>
+                <span class="discount-badge">خصم 17%</span>
+                <div class="tax-note">شامل الضريبة</div>
+            </div>
+
+            <p class="product-desc">حقيبة GG Marmont الأيقونية من قوتشي. مصنوعة من جلد ماتيلاسيه الفاخر بنمط شيفرون مميز مع شعار GG المزدوج المعدني. تصميم إيطالي خالد يجمع بين الفخامة والعملية.</p>
+
+            <!-- Color Options -->
+            <div class="option-group">
+                <div class="option-label">اللون: <strong>أسود</strong></div>
+                <div class="color-options">
+                    <div class="color-option active" style="background:#000;" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#8B4513;" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#F5E6D3;" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background:#8B0000;" onclick="selectColor(this)"></div>
+                </div>
+            </div>
+
+            <!-- Size Options -->
+            <div class="option-group">
+                <div class="option-label">الحجم <a href="#">دليل المقاسات</a></div>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">صغير</div>
+                    <div class="size-option active" onclick="selectSize(this)">وسط</div>
+                    <div class="size-option" onclick="selectSize(this)">كبير</div>
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="quantity-selector">
+                <span class="quantity-label">الكمية:</span>
+                <div class="quantity-controls">
+                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                    <input type="number" class="qty-input" value="1" min="1" id="qtyInput">
+                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="window.location.href='checkout.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    اشتري الآن
+                </button>
+                <button class="btn-secondary">أضف للسلة</button>
+            </div>
+
+            <!-- Express Checkout -->
+            <div class="express-checkout">
+                <div class="express-title">أو اشتري بسرعة مع</div>
+                <div class="express-buttons">
+                    <button class="express-btn apple-pay">🍎 Apple Pay</button>
+                    <button class="express-btn tamara">قسّطها مع تمارا</button>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="product-features">
+                <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>شحن مجاني فوق 500 ر.س</div>
+                <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>توصيل خلال 3 ساعات</div>
+                <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>منتج أصلي 100%</div>
+                <div class="feature-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>إرجاع خلال 14 يوم</div>
+            </div>
+
+            <!-- Accordion -->
+            <div class="accordion">
+                <div class="accordion-item open">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">تفاصيل المنتج <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+                    <div class="accordion-content"><div class="accordion-inner">
+                        • جلد ماتيلاسيه بنمط شيفرون<br>
+                        • شعار GG المزدوج المعدني بلون ذهبي عتيق<br>
+                        • سلسلة كتف قابلة للتعديل<br>
+                        • بطانة من الحرير<br>
+                        • جيب داخلي بسحاب<br>
+                        • الأبعاد: 26 × 15 × 7 سم<br>
+                        • صنع في إيطاليا
+                    </div></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">الشحن والتوصيل <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+                    <div class="accordion-content"><div class="accordion-inner">
+                        • الرياض: توصيل خلال 3 ساعات<br>
+                        • المدن الرئيسية: 1-3 أيام عمل<br>
+                        • باقي المناطق: 3-5 أيام عمل<br>
+                        • شحن مجاني للطلبات فوق 500 ر.س
+                    </div></div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">سياسة الإرجاع <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+                    <div class="accordion-content"><div class="accordion-inner">
+                        يمكنك إرجاع المنتج خلال 14 يوم من الاستلام بشرط أن يكون بحالته الأصلية مع جميع الملحقات والتغليف. استرداد المبلغ خلال 5-14 يوم عمل.
+                    </div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-section">
+        <h2 class="section-title">منتجات قد تعجبك</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400" alt="">
+                    <div class="card-wishlist"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                </div>
+                <div class="card-info">
+                    <div class="card-brand">PRADA</div>
+                    <div class="card-name">حقيبة Galleria جلد سافيانو</div>
+                    <div class="card-price">12,500 ر.س</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400" alt="">
+                    <div class="card-wishlist"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                </div>
+                <div class="card-info">
+                    <div class="card-brand">SAINT LAURENT</div>
+                    <div class="card-name">حقيبة Loulou جلد مبطن</div>
+                    <div class="card-price">9,800 ر.س</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=400" alt="">
+                    <div class="card-wishlist"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                </div>
+                <div class="card-info">
+                    <div class="card-brand">DIOR</div>
+                    <div class="card-name">حقيبة Lady Dior</div>
+                    <div class="card-price">18,500 ر.س</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400" alt="">
+                    <div class="card-wishlist"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                </div>
+                <div class="card-info">
+                    <div class="card-brand">BOTTEGA VENETA</div>
+                    <div class="card-name">حقيبة Cassette منسوجة</div>
+                    <div class="card-price">12,200 ر.س</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo"><img src="data:image/png;base64,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" alt="كثيب"></div>
+        <p class="footer-text">© 2025 كثيب. جميع الحقوق محفوظة. | عنوان الأناقة الفاخرة</p>
+    </footer>
+
+    <script>
+        function selectColor(el) {
+            document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function selectSize(el) {
+            document.querySelectorAll('.size-option').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function changeQty(delta) {
+            const input = document.getElementById('qtyInput');
+            let val = parseInt(input.value) + delta;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+        }
+        document.querySelectorAll('.thumb').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('mainImg').src = this.querySelector('img').src.replace('w=200', 'w=800');
+            });
+        });
+    </script>
+
+</body>
+</html>

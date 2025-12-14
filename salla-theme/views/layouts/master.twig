@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ store.name }}{% endblock %}</title>
+
+    {# Google Fonts #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    {# Theme Styles #}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    {# Salla Core #}
+    {{ salla.head() }}
+
+    {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    {# Top Bar #}
+    {% if theme.settings.header.show_top_bar %}
+    <div class="top-bar">
+        <span>{{ theme.settings.header.top_bar_text }}</span>
+    </div>
+    {% endif %}
+
+    {# Header #}
+    {% include 'components/header.twig' %}
+
+    {# Main Navigation #}
+    {% include 'components/navigation.twig' %}
+
+    {# Page Content #}
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    {# Footer #}
+    {% include 'components/footer.twig' %}
+
+    {# Theme Scripts #}
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    {# Salla Core Scripts #}
+    {{ salla.footer() }}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

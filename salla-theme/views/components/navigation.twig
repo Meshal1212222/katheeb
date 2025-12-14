@@ -1,0 +1,27 @@
+{# ============================================
+   NAVIGATION COMPONENT
+   ============================================ #}
+
+{# Desktop Navigation #}
+<nav class="main-nav">
+    <div class="nav-container">
+        {% for category in categories %}
+            <a href="{{ category.url }}" class="nav-link {% if category.is_sale %}sale{% endif %}">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+
+        {# Static Links #}
+        <a href="{{ link('brands') }}" class="nav-link">الماركات</a>
+        <a href="{{ link('offers') }}" class="nav-link sale">تخفيضات</a>
+    </div>
+</nav>
+
+{# Mobile Navigation #}
+<nav class="mobile-nav">
+    {% for category in categories %}
+        <a href="{{ category.url }}">{{ category.name }}</a>
+    {% endfor %}
+    <a href="{{ link('brands') }}">الماركات</a>
+    <a href="{{ link('offers') }}" class="sale">تخفيضات</a>
+</nav>
