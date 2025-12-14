@@ -1,48 +1,165 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="{{ theme.settings.dark_mode.default_mode | default('light') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ store.name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ store.description }}{% endblock %}">
+
+    {# Favicon #}
+    <link rel="icon" href="{{ store.logo }}" type="image/png">
 
     {# Google Fonts #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     {# Theme Styles #}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    {# Dark Mode Auto Detection #}
+    {% if theme.settings.dark_mode.enabled and theme.settings.dark_mode.toggle_type == 'auto' %}
+    <script>
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+    {% endif %}
 
     {# Salla Core #}
     {{ salla.head() }}
 
     {% block head %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}{% endblock %}" data-animations="{{ theme.settings.advanced.enable_animations | default('true') }}">
 
-    {# Top Bar #}
-    {% if theme.settings.header.show_top_bar %}
-    <div class="top-bar">
-        <span>{{ theme.settings.header.top_bar_text }}</span>
+    {# Skip to Content - Accessibility #}
+    <a href="#main-content" class="skip-link">تخطي إلى المحتوى</a>
+
+    {# Top Bar / Announcement #}
+    {% if theme.settings.top_bar.enabled %}
+    <div class="top-bar {% if theme.settings.top_bar.style == 'marquee' %}top-bar--marquee{% endif %}">
+        <div class="container">
+            {% if theme.settings.top_bar.style == 'marquee' %}
+            <div class="marquee">
+                <span>{{ theme.settings.top_bar.text }}</span>
+                <span>{{ theme.settings.top_bar.text }}</span>
+            </div>
+            {% else %}
+            <span>{{ theme.settings.top_bar.text }}</span>
+            {% endif %}
+            {% if theme.settings.top_bar.closable %}
+            <button class="top-bar-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            {% endif %}
+        </div>
     </div>
     {% endif %}
 
     {# Header #}
     {% include 'components/header.twig' %}
 
-    {# Main Navigation #}
+    {# Mega Menu Navigation (Desktop) #}
+    {% if theme.settings.navigation.mega_menu_enabled %}
+    {% include 'components/mega-menu.twig' %}
+    {% else %}
     {% include 'components/navigation.twig' %}
+    {% endif %}
 
     {# Page Content #}
-    <main class="main-content">
+    <main id="main-content" class="main-content">
         {% block content %}{% endblock %}
     </main>
 
     {# Footer #}
     {% include 'components/footer.twig' %}
 
+    {# Quick View Modal #}
+    {% if theme.settings.product_card.enable_quick_view %}
+    {% include 'components/quick-view.twig' %}
+    {% endif %}
+
+    {# Cart Drawer #}
+    {% if theme.settings.advanced.enable_ajax_cart %}
+    {% include 'components/cart-drawer.twig' %}
+    {% endif %}
+
+    {# Back to Top Button #}
+    {% if theme.settings.advanced.back_to_top %}
+    <button id="back-to-top" class="back-to-top" aria-label="العودة للأعلى">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+    {% endif %}
+
+    {# Dark Mode Toggle (if manual) #}
+    {% if theme.settings.dark_mode.enabled and theme.settings.dark_mode.toggle_type == 'manual' %}
+    <button id="theme-toggle" class="theme-toggle" aria-label="تبديل الوضع الداكن">
+        <svg class="sun-icon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2a1 1 0 100-2H2a1 1 0 100 2zm18 0h2a1 1 0 100-2h-2a1 1 0 100 2zM11 2v2a1 1 0 102 0V2a1 1 0 10-2 0zm0 18v2a1 1 0 102 0v-2a1 1 0 10-2 0zM5.99 4.58a1 1 0 10-1.41 1.41l1.06 1.06a1 1 0 101.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 10-1.41 1.41l1.06 1.06a1 1 0 101.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 10-1.41-1.41l-1.06 1.06a1 1 0 101.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 10-1.41-1.41l-1.06 1.06a1 1 0 101.41 1.41l1.06-1.06z"/>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M21.64 13a1 1 0 00-1.05-.14 8.05 8.05 0 01-3.37.73 8.15 8.15 0 01-8.14-8.1 8.59 8.59 0 01.25-2A1 1 0 008 2.36a10.14 10.14 0 1014 11.69 1 1 0 00-.36-1.05z"/>
+        </svg>
+    </button>
+    {% endif %}
+
+    {# Toast Notifications Container #}
+    <div id="toast-container" class="toast-container"></div>
+
     {# Theme Scripts #}
     <script src="{{ asset('js/app.js') }}"></script>
+
+    {# Dark Mode Script #}
+    {% if theme.settings.dark_mode.enabled %}
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('opulent-theme');
+
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('opulent-theme', newTheme);
+            });
+        }
+
+        // Auto theme based on time (scheduled)
+        {% if theme.settings.dark_mode.toggle_type == 'scheduled' %}
+        function checkScheduledTheme() {
+            const hour = new Date().getHours();
+            const startHour = {{ theme.settings.dark_mode.dark_start_time | default(18) }};
+            const endHour = {{ theme.settings.dark_mode.dark_end_time | default(6) }};
+            const shouldBeDark = hour >= startHour || hour < endHour;
+            html.setAttribute('data-theme', shouldBeDark ? 'dark' : 'light');
+        }
+        checkScheduledTheme();
+        setInterval(checkScheduledTheme, 60000);
+        {% endif %}
+    </script>
+    {% endif %}
+
+    {# Back to Top Script #}
+    {% if theme.settings.advanced.back_to_top %}
+    <script>
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            window.addEventListener('scroll', () => {
+                backToTop.classList.toggle('show', window.scrollY > 300);
+            });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    </script>
+    {% endif %}
 
     {# Salla Core Scripts #}
     {{ salla.footer() }}

@@ -1,16 +1,100 @@
 {
-  "name": "katheeb",
-  "display_name": "كثيب - عنوان الفخامة",
-  "version": "1.0.0",
-  "author": "Katheeb Team",
-  "description": "قالب فاخر للأزياء والماركات العالمية",
+  "name": "opulent",
+  "display_name": "OPULENT - أوبيولنت",
+  "version": "2.0.0",
+  "author": "OPULENT Team",
+  "author_email": "support@opulent.sa",
+  "description": "قالب فاخر للمتاجر الراقية | Premium Theme for Luxury Stores",
   "preview_image": "assets/images/preview.png",
-  "support_url": "https://katheeb.sa/support",
-  "documentation_url": "https://katheeb.sa/docs",
+  "support_url": "https://opulent.sa/support",
+  "documentation_url": "https://opulent.sa/docs",
+  "features": [
+    "dark_mode",
+    "rtl_support",
+    "mega_menu",
+    "quick_view",
+    "wishlist",
+    "compare",
+    "ajax_cart",
+    "infinite_scroll",
+    "lazy_loading",
+    "animations",
+    "multi_currency",
+    "size_guide",
+    "sticky_cart",
+    "back_to_top"
+  ],
   "settings": {
+    "general": {
+      "label": "الإعدادات العامة",
+      "icon": "settings",
+      "settings": {
+        "store_style": {
+          "type": "select",
+          "label": "نمط المتجر",
+          "default": "luxury",
+          "options": [
+            {"value": "luxury", "label": "فاخر - Luxury"},
+            {"value": "modern", "label": "عصري - Modern"},
+            {"value": "minimal", "label": "بسيط - Minimal"},
+            {"value": "bold", "label": "جريء - Bold"}
+          ]
+        },
+        "layout_width": {
+          "type": "select",
+          "label": "عرض الصفحة",
+          "default": "wide",
+          "options": [
+            {"value": "wide", "label": "عريض (1400px)"},
+            {"value": "standard", "label": "قياسي (1200px)"},
+            {"value": "full", "label": "كامل العرض"}
+          ]
+        },
+        "enable_animations": {
+          "type": "checkbox",
+          "label": "تفعيل الحركات",
+          "default": true
+        },
+        "animation_style": {
+          "type": "select",
+          "label": "نوع الحركات",
+          "default": "elegant",
+          "options": [
+            {"value": "elegant", "label": "أنيق"},
+            {"value": "smooth", "label": "سلس"},
+            {"value": "bounce", "label": "نابض"},
+            {"value": "none", "label": "بدون"}
+          ]
+        },
+        "enable_lazy_load": {
+          "type": "checkbox",
+          "label": "التحميل الكسول للصور",
+          "default": true
+        },
+        "enable_back_to_top": {
+          "type": "checkbox",
+          "label": "زر العودة للأعلى",
+          "default": true
+        }
+      }
+    },
     "colors": {
       "label": "الألوان",
+      "icon": "palette",
       "settings": {
+        "color_scheme": {
+          "type": "select",
+          "label": "نظام الألوان",
+          "default": "gold",
+          "options": [
+            {"value": "gold", "label": "ذهبي فاخر"},
+            {"value": "rose", "label": "وردي أنيق"},
+            {"value": "emerald", "label": "زمردي"},
+            {"value": "royal", "label": "ملكي"},
+            {"value": "noir", "label": "أسود كلاسيكي"},
+            {"value": "custom", "label": "مخصص"}
+          ]
+        },
         "primary_color": {
           "type": "color",
           "label": "اللون الرئيسي",
@@ -19,92 +103,634 @@
         "secondary_color": {
           "type": "color",
           "label": "اللون الثانوي",
-          "default": "#222222"
+          "default": "#1A1A1A"
+        },
+        "accent_color": {
+          "type": "color",
+          "label": "لون التمييز",
+          "default": "#B8860B"
         },
         "background_color": {
           "type": "color",
           "label": "لون الخلفية",
           "default": "#FAFAFA"
         },
+        "text_color": {
+          "type": "color",
+          "label": "لون النص",
+          "default": "#222222"
+        },
         "sale_color": {
           "type": "color",
           "label": "لون التخفيضات",
           "default": "#C41E3A"
+        },
+        "success_color": {
+          "type": "color",
+          "label": "لون النجاح",
+          "default": "#2E7D32"
+        },
+        "gradient_enable": {
+          "type": "checkbox",
+          "label": "تفعيل التدرجات",
+          "default": true
+        },
+        "gradient_start": {
+          "type": "color",
+          "label": "بداية التدرج",
+          "default": "#C9A96E"
+        },
+        "gradient_end": {
+          "type": "color",
+          "label": "نهاية التدرج",
+          "default": "#B8860B"
+        }
+      }
+    },
+    "dark_mode": {
+      "label": "الوضع الداكن",
+      "icon": "moon",
+      "settings": {
+        "enable_dark_mode": {
+          "type": "checkbox",
+          "label": "تفعيل الوضع الداكن",
+          "default": true
+        },
+        "dark_mode_toggle": {
+          "type": "select",
+          "label": "طريقة التبديل",
+          "default": "auto",
+          "options": [
+            {"value": "auto", "label": "تلقائي (حسب النظام)"},
+            {"value": "manual", "label": "يدوي (زر)"},
+            {"value": "scheduled", "label": "مجدول"}
+          ]
+        },
+        "dark_bg_color": {
+          "type": "color",
+          "label": "خلفية الوضع الداكن",
+          "default": "#0D0D0D"
+        },
+        "dark_surface_color": {
+          "type": "color",
+          "label": "لون السطح الداكن",
+          "default": "#1A1A1A"
+        },
+        "dark_text_color": {
+          "type": "color",
+          "label": "لون النص الداكن",
+          "default": "#F5F5F5"
         }
       }
     },
     "typography": {
       "label": "الخطوط",
+      "icon": "type",
       "settings": {
-        "font_family": {
+        "arabic_font": {
           "type": "select",
-          "label": "نوع الخط",
+          "label": "الخط العربي",
           "default": "Readex Pro",
           "options": [
             {"value": "Readex Pro", "label": "Readex Pro"},
             {"value": "Cairo", "label": "Cairo"},
-            {"value": "Tajawal", "label": "Tajawal"}
+            {"value": "Tajawal", "label": "Tajawal"},
+            {"value": "Almarai", "label": "Almarai"},
+            {"value": "IBM Plex Sans Arabic", "label": "IBM Plex Arabic"},
+            {"value": "Noto Sans Arabic", "label": "Noto Sans Arabic"}
+          ]
+        },
+        "english_font": {
+          "type": "select",
+          "label": "الخط الإنجليزي",
+          "default": "Montserrat",
+          "options": [
+            {"value": "Montserrat", "label": "Montserrat"},
+            {"value": "Playfair Display", "label": "Playfair Display"},
+            {"value": "Cormorant Garamond", "label": "Cormorant"},
+            {"value": "Lora", "label": "Lora"},
+            {"value": "DM Sans", "label": "DM Sans"}
+          ]
+        },
+        "heading_weight": {
+          "type": "select",
+          "label": "وزن العناوين",
+          "default": "600",
+          "options": [
+            {"value": "400", "label": "عادي"},
+            {"value": "500", "label": "متوسط"},
+            {"value": "600", "label": "ثقيل"},
+            {"value": "700", "label": "عريض"}
+          ]
+        },
+        "base_font_size": {
+          "type": "select",
+          "label": "حجم الخط الأساسي",
+          "default": "16",
+          "options": [
+            {"value": "14", "label": "صغير (14px)"},
+            {"value": "16", "label": "متوسط (16px)"},
+            {"value": "18", "label": "كبير (18px)"}
           ]
         }
       }
     },
     "header": {
       "label": "الهيدر",
+      "icon": "layout",
       "settings": {
+        "header_style": {
+          "type": "select",
+          "label": "نمط الهيدر",
+          "default": "centered",
+          "options": [
+            {"value": "centered", "label": "الشعار في المنتصف"},
+            {"value": "left", "label": "الشعار يسار"},
+            {"value": "minimal", "label": "بسيط"},
+            {"value": "mega", "label": "ميجا هيدر"}
+          ]
+        },
         "sticky_header": {
           "type": "checkbox",
           "label": "هيدر ثابت",
           "default": true
         },
+        "header_transparent": {
+          "type": "checkbox",
+          "label": "هيدر شفاف (الرئيسية)",
+          "default": false
+        },
+        "show_search": {
+          "type": "checkbox",
+          "label": "إظهار البحث",
+          "default": true
+        },
+        "search_style": {
+          "type": "select",
+          "label": "نمط البحث",
+          "default": "popup",
+          "options": [
+            {"value": "popup", "label": "منبثق"},
+            {"value": "inline", "label": "في الهيدر"},
+            {"value": "fullscreen", "label": "ملء الشاشة"}
+          ]
+        },
+        "show_wishlist": {
+          "type": "checkbox",
+          "label": "إظهار المفضلة",
+          "default": true
+        },
+        "show_compare": {
+          "type": "checkbox",
+          "label": "إظهار المقارنة",
+          "default": true
+        },
+        "cart_style": {
+          "type": "select",
+          "label": "نمط السلة",
+          "default": "drawer",
+          "options": [
+            {"value": "drawer", "label": "درج جانبي"},
+            {"value": "dropdown", "label": "قائمة منسدلة"},
+            {"value": "page", "label": "صفحة منفصلة"}
+          ]
+        }
+      }
+    },
+    "top_bar": {
+      "label": "الشريط العلوي",
+      "icon": "minus",
+      "settings": {
         "show_top_bar": {
           "type": "checkbox",
           "label": "إظهار الشريط العلوي",
           "default": true
         },
+        "top_bar_style": {
+          "type": "select",
+          "label": "نمط الشريط",
+          "default": "marquee",
+          "options": [
+            {"value": "static", "label": "ثابت"},
+            {"value": "marquee", "label": "متحرك"},
+            {"value": "slider", "label": "سلايدر"}
+          ]
+        },
+        "top_bar_messages": {
+          "type": "textarea",
+          "label": "الرسائل (سطر لكل رسالة)",
+          "default": "شحن مجاني للطلبات فوق 500 ر.س\nتوصيل خلال 3 ساعات في الرياض\nمنتجات أصلية 100%"
+        },
+        "top_bar_bg": {
+          "type": "color",
+          "label": "لون الخلفية",
+          "default": "#1A1A1A"
+        },
         "top_bar_text": {
-          "type": "text",
-          "label": "نص الشريط العلوي",
-          "default": "شحن مجاني للطلبات فوق 500 ر.س"
+          "type": "color",
+          "label": "لون النص",
+          "default": "#FFFFFF"
+        }
+      }
+    },
+    "navigation": {
+      "label": "القائمة الرئيسية",
+      "icon": "menu",
+      "settings": {
+        "nav_style": {
+          "type": "select",
+          "label": "نمط القائمة",
+          "default": "mega",
+          "options": [
+            {"value": "simple", "label": "بسيط"},
+            {"value": "dropdown", "label": "منسدل"},
+            {"value": "mega", "label": "ميجا منيو"}
+          ]
+        },
+        "mega_menu_columns": {
+          "type": "select",
+          "label": "أعمدة الميجا منيو",
+          "default": "4",
+          "options": [
+            {"value": "3", "label": "3 أعمدة"},
+            {"value": "4", "label": "4 أعمدة"},
+            {"value": "5", "label": "5 أعمدة"}
+          ]
+        },
+        "show_mega_images": {
+          "type": "checkbox",
+          "label": "صور في الميجا منيو",
+          "default": true
+        },
+        "mobile_menu_style": {
+          "type": "select",
+          "label": "قائمة الجوال",
+          "default": "drawer",
+          "options": [
+            {"value": "drawer", "label": "درج جانبي"},
+            {"value": "fullscreen", "label": "ملء الشاشة"},
+            {"value": "bottom", "label": "من الأسفل"}
+          ]
         }
       }
     },
     "homepage": {
       "label": "الصفحة الرئيسية",
+      "icon": "home",
       "settings": {
-        "show_hero": {
+        "hero_style": {
+          "type": "select",
+          "label": "نمط البانر الرئيسي",
+          "default": "slider",
+          "options": [
+            {"value": "slider", "label": "سلايدر"},
+            {"value": "video", "label": "فيديو"},
+            {"value": "split", "label": "مقسم"},
+            {"value": "parallax", "label": "باراللاكس"},
+            {"value": "grid", "label": "شبكة"}
+          ]
+        },
+        "hero_height": {
+          "type": "select",
+          "label": "ارتفاع البانر",
+          "default": "large",
+          "options": [
+            {"value": "small", "label": "صغير (400px)"},
+            {"value": "medium", "label": "متوسط (500px)"},
+            {"value": "large", "label": "كبير (600px)"},
+            {"value": "full", "label": "ملء الشاشة"}
+          ]
+        },
+        "hero_overlay": {
           "type": "checkbox",
-          "label": "إظهار البانر الرئيسي",
+          "label": "طبقة داكنة على البانر",
           "default": true
+        },
+        "hero_overlay_opacity": {
+          "type": "range",
+          "label": "شفافية الطبقة",
+          "default": 30,
+          "min": 0,
+          "max": 100
+        },
+        "show_features_bar": {
+          "type": "checkbox",
+          "label": "شريط المميزات",
+          "default": true
+        },
+        "features_bar_style": {
+          "type": "select",
+          "label": "نمط شريط المميزات",
+          "default": "icons",
+          "options": [
+            {"value": "icons", "label": "أيقونات"},
+            {"value": "text", "label": "نصوص"},
+            {"value": "marquee", "label": "متحرك"}
+          ]
+        },
+        "categories_style": {
+          "type": "select",
+          "label": "نمط الأقسام",
+          "default": "cards",
+          "options": [
+            {"value": "cards", "label": "بطاقات"},
+            {"value": "circles", "label": "دوائر"},
+            {"value": "banners", "label": "بانرات"},
+            {"value": "masonry", "label": "ماسونري"}
+          ]
         },
         "products_per_row": {
           "type": "select",
-          "label": "عدد المنتجات في الصف",
+          "label": "منتجات في الصف",
           "default": "4",
           "options": [
             {"value": "3", "label": "3 منتجات"},
             {"value": "4", "label": "4 منتجات"},
-            {"value": "5", "label": "5 منتجات"}
+            {"value": "5", "label": "5 منتجات"},
+            {"value": "6", "label": "6 منتجات"}
           ]
+        },
+        "products_display": {
+          "type": "select",
+          "label": "عرض المنتجات",
+          "default": "carousel",
+          "options": [
+            {"value": "carousel", "label": "كاروسيل"},
+            {"value": "grid", "label": "شبكة"},
+            {"value": "masonry", "label": "ماسونري"}
+          ]
+        },
+        "show_brands": {
+          "type": "checkbox",
+          "label": "قسم الماركات",
+          "default": true
+        },
+        "brands_style": {
+          "type": "select",
+          "label": "نمط الماركات",
+          "default": "carousel",
+          "options": [
+            {"value": "carousel", "label": "كاروسيل"},
+            {"value": "grid", "label": "شبكة"},
+            {"value": "marquee", "label": "متحرك"}
+          ]
+        },
+        "show_instagram": {
+          "type": "checkbox",
+          "label": "قسم انستقرام",
+          "default": true
+        },
+        "instagram_username": {
+          "type": "text",
+          "label": "حساب انستقرام",
+          "default": ""
         },
         "show_newsletter": {
           "type": "checkbox",
-          "label": "إظهار النشرة البريدية",
+          "label": "النشرة البريدية",
+          "default": true
+        }
+      }
+    },
+    "product_card": {
+      "label": "كارت المنتج",
+      "icon": "square",
+      "settings": {
+        "card_style": {
+          "type": "select",
+          "label": "نمط الكارت",
+          "default": "elegant",
+          "options": [
+            {"value": "elegant", "label": "أنيق"},
+            {"value": "minimal", "label": "بسيط"},
+            {"value": "bordered", "label": "بإطار"},
+            {"value": "shadow", "label": "بظل"}
+          ]
+        },
+        "image_ratio": {
+          "type": "select",
+          "label": "نسبة الصورة",
+          "default": "1:1",
+          "options": [
+            {"value": "1:1", "label": "مربع (1:1)"},
+            {"value": "3:4", "label": "عمودي (3:4)"},
+            {"value": "4:3", "label": "أفقي (4:3)"}
+          ]
+        },
+        "image_hover": {
+          "type": "select",
+          "label": "تأثير الصورة",
+          "default": "zoom",
+          "options": [
+            {"value": "none", "label": "بدون"},
+            {"value": "zoom", "label": "تكبير"},
+            {"value": "swap", "label": "تبديل الصورة"},
+            {"value": "slide", "label": "انزلاق"}
+          ]
+        },
+        "show_quick_view": {
+          "type": "checkbox",
+          "label": "عرض سريع",
+          "default": true
+        },
+        "show_wishlist_btn": {
+          "type": "checkbox",
+          "label": "زر المفضلة",
+          "default": true
+        },
+        "show_compare_btn": {
+          "type": "checkbox",
+          "label": "زر المقارنة",
+          "default": false
+        },
+        "show_add_cart": {
+          "type": "checkbox",
+          "label": "زر الإضافة للسلة",
+          "default": true
+        },
+        "show_rating": {
+          "type": "checkbox",
+          "label": "التقييم",
+          "default": true
+        },
+        "show_brand": {
+          "type": "checkbox",
+          "label": "اسم الماركة",
+          "default": true
+        }
+      }
+    },
+    "product_page": {
+      "label": "صفحة المنتج",
+      "icon": "package",
+      "settings": {
+        "layout": {
+          "type": "select",
+          "label": "تخطيط الصفحة",
+          "default": "standard",
+          "options": [
+            {"value": "standard", "label": "قياسي"},
+            {"value": "wide_gallery", "label": "معرض عريض"},
+            {"value": "sticky_info", "label": "معلومات ثابتة"},
+            {"value": "tabbed", "label": "تبويبات"}
+          ]
+        },
+        "gallery_style": {
+          "type": "select",
+          "label": "نمط المعرض",
+          "default": "thumbnails",
+          "options": [
+            {"value": "thumbnails", "label": "مصغرات"},
+            {"value": "dots", "label": "نقاط"},
+            {"value": "vertical", "label": "عمودي"},
+            {"value": "grid", "label": "شبكة"}
+          ]
+        },
+        "enable_zoom": {
+          "type": "checkbox",
+          "label": "تكبير الصور",
+          "default": true
+        },
+        "show_size_guide": {
+          "type": "checkbox",
+          "label": "دليل المقاسات",
+          "default": true
+        },
+        "show_share": {
+          "type": "checkbox",
+          "label": "أزرار المشاركة",
+          "default": true
+        },
+        "sticky_add_cart": {
+          "type": "checkbox",
+          "label": "زر إضافة ثابت (جوال)",
+          "default": true
+        },
+        "show_trust_badges": {
+          "type": "checkbox",
+          "label": "شارات الثقة",
+          "default": true
+        },
+        "related_products_count": {
+          "type": "select",
+          "label": "عدد المنتجات المشابهة",
+          "default": "8",
+          "options": [
+            {"value": "4", "label": "4"},
+            {"value": "8", "label": "8"},
+            {"value": "12", "label": "12"}
+          ]
+        }
+      }
+    },
+    "checkout": {
+      "label": "صفحة الدفع",
+      "icon": "credit-card",
+      "settings": {
+        "checkout_style": {
+          "type": "select",
+          "label": "نمط الدفع",
+          "default": "modern",
+          "options": [
+            {"value": "modern", "label": "عصري"},
+            {"value": "classic", "label": "كلاسيكي"},
+            {"value": "steps", "label": "خطوات"}
+          ]
+        },
+        "show_progress": {
+          "type": "checkbox",
+          "label": "شريط التقدم",
+          "default": true
+        },
+        "show_trust_badges": {
+          "type": "checkbox",
+          "label": "شارات الثقة",
+          "default": true
+        },
+        "enable_gift_wrap": {
+          "type": "checkbox",
+          "label": "تغليف كهدية",
+          "default": true
+        },
+        "express_checkout": {
+          "type": "checkbox",
+          "label": "الدفع السريع",
           "default": true
         }
       }
     },
     "footer": {
       "label": "الفوتر",
+      "icon": "layout",
       "settings": {
-        "show_social_links": {
+        "footer_style": {
+          "type": "select",
+          "label": "نمط الفوتر",
+          "default": "mega",
+          "options": [
+            {"value": "simple", "label": "بسيط"},
+            {"value": "standard", "label": "قياسي"},
+            {"value": "mega", "label": "ميجا"}
+          ]
+        },
+        "footer_columns": {
+          "type": "select",
+          "label": "عدد الأعمدة",
+          "default": "5",
+          "options": [
+            {"value": "3", "label": "3"},
+            {"value": "4", "label": "4"},
+            {"value": "5", "label": "5"}
+          ]
+        },
+        "show_newsletter": {
           "type": "checkbox",
-          "label": "إظهار روابط التواصل",
+          "label": "النشرة البريدية",
           "default": true
         },
-        "footer_text": {
+        "show_social_links": {
+          "type": "checkbox",
+          "label": "روابط التواصل",
+          "default": true
+        },
+        "show_payment_icons": {
+          "type": "checkbox",
+          "label": "أيقونات الدفع",
+          "default": true
+        },
+        "copyright_text": {
           "type": "text",
           "label": "نص حقوق النشر",
-          "default": "جميع الحقوق محفوظة © كثيب 2024"
+          "default": "جميع الحقوق محفوظة © OPULENT 2024"
+        },
+        "footer_bg": {
+          "type": "color",
+          "label": "لون خلفية الفوتر",
+          "default": "#0D0D0D"
+        }
+      }
+    },
+    "advanced": {
+      "label": "إعدادات متقدمة",
+      "icon": "sliders",
+      "settings": {
+        "custom_css": {
+          "type": "code",
+          "label": "CSS مخصص",
+          "default": "",
+          "language": "css"
+        },
+        "custom_js": {
+          "type": "code",
+          "label": "JavaScript مخصص",
+          "default": "",
+          "language": "javascript"
+        },
+        "head_code": {
+          "type": "code",
+          "label": "كود الهيد",
+          "default": "",
+          "language": "html"
         }
       }
     }
