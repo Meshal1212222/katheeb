@@ -1,0 +1,437 @@
+/* ═══════════════════════════════════════════════════════════
+   OPULENT - Custom CSS for Salla
+   ثيم أوبيولنت - CSS مخصص لسله
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   المتغيرات الأساسية - Colors & Variables
+   ───────────────────────────────────────── */
+:root {
+    --opulent-primary: #C9A96E;
+    --opulent-primary-dark: #B8956A;
+    --opulent-secondary: #1A1A1A;
+    --opulent-gold: #D4AF37;
+    --opulent-black: #0D0D0D;
+    --opulent-white: #FFFFFF;
+    --opulent-gray: #F5F5F5;
+    --opulent-text: #333333;
+    --opulent-text-light: #666666;
+    --opulent-border: #E5E5E5;
+    --opulent-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --opulent-radius: 12px;
+    --opulent-transition: all 0.3s ease;
+}
+
+/* ─────────────────────────────────────────
+   الخط - Typography
+   ───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap');
+
+body, * {
+    font-family: 'Readex Pro', sans-serif !important;
+}
+
+/* ─────────────────────────────────────────
+   الهيدر - Header
+   ───────────────────────────────────────── */
+header, .header, [class*="header"] {
+    background: var(--opulent-white) !important;
+    box-shadow: var(--opulent-shadow) !important;
+    border-bottom: 1px solid var(--opulent-border) !important;
+}
+
+.logo img {
+    max-height: 50px !important;
+}
+
+/* ─────────────────────────────────────────
+   شريط الإعلانات - Announcement Bar
+   ───────────────────────────────────────── */
+.announcement-bar, [class*="announcement"], [class*="top-bar"] {
+    background: linear-gradient(135deg, var(--opulent-secondary) 0%, var(--opulent-black) 100%) !important;
+    color: var(--opulent-white) !important;
+    padding: 10px 0 !important;
+    font-size: 13px !important;
+}
+
+.announcement-bar a {
+    color: var(--opulent-primary) !important;
+}
+
+/* ─────────────────────────────────────────
+   القائمة - Navigation
+   ───────────────────────────────────────── */
+nav a, .nav-link, [class*="nav"] a {
+    color: var(--opulent-text) !important;
+    font-weight: 500 !important;
+    transition: var(--opulent-transition) !important;
+}
+
+nav a:hover, .nav-link:hover {
+    color: var(--opulent-primary) !important;
+}
+
+/* ─────────────────────────────────────────
+   الأزرار - Buttons
+   ───────────────────────────────────────── */
+.btn, button, [class*="btn"], input[type="submit"] {
+    border-radius: var(--opulent-radius) !important;
+    font-weight: 500 !important;
+    transition: var(--opulent-transition) !important;
+}
+
+/* الزر الرئيسي */
+.btn-primary, [class*="btn-primary"], .add-to-cart-btn, [class*="add-cart"] {
+    background: linear-gradient(135deg, var(--opulent-primary) 0%, var(--opulent-gold) 100%) !important;
+    border: none !important;
+    color: var(--opulent-white) !important;
+    padding: 12px 30px !important;
+    font-size: 14px !important;
+    box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3) !important;
+}
+
+.btn-primary:hover, [class*="btn-primary"]:hover, .add-to-cart-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(201, 169, 110, 0.4) !important;
+}
+
+/* الزر الثانوي */
+.btn-secondary, [class*="btn-outline"] {
+    background: transparent !important;
+    border: 2px solid var(--opulent-secondary) !important;
+    color: var(--opulent-secondary) !important;
+}
+
+.btn-secondary:hover, [class*="btn-outline"]:hover {
+    background: var(--opulent-secondary) !important;
+    color: var(--opulent-white) !important;
+}
+
+/* ─────────────────────────────────────────
+   كروت المنتجات - Product Cards
+   ───────────────────────────────────────── */
+.product-card, [class*="product-card"], [class*="product-item"] {
+    background: var(--opulent-white) !important;
+    border-radius: var(--opulent-radius) !important;
+    border: 1px solid var(--opulent-border) !important;
+    overflow: hidden !important;
+    transition: var(--opulent-transition) !important;
+    box-shadow: none !important;
+}
+
+.product-card:hover, [class*="product-card"]:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+    border-color: var(--opulent-primary) !important;
+}
+
+/* صورة المنتج */
+.product-card img, [class*="product"] img {
+    transition: transform 0.5s ease !important;
+}
+
+.product-card:hover img, [class*="product-card"]:hover img {
+    transform: scale(1.05) !important;
+}
+
+/* اسم المنتج */
+.product-title, .product-name, [class*="product-title"], [class*="product-name"] {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--opulent-text) !important;
+    margin: 12px 0 8px !important;
+}
+
+/* سعر المنتج */
+.product-price, [class*="price"] {
+    color: var(--opulent-primary) !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+/* السعر القديم */
+.old-price, [class*="compare-price"], del, s {
+    color: var(--opulent-text-light) !important;
+    font-size: 13px !important;
+}
+
+/* شارة التخفيض */
+.sale-badge, [class*="badge"], [class*="discount"] {
+    background: #E53935 !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+/* ─────────────────────────────────────────
+   صفحة المنتج - Product Page
+   ───────────────────────────────────────── */
+.product-gallery img {
+    border-radius: var(--opulent-radius) !important;
+}
+
+.product-info h1, .product-details h1 {
+    font-size: 28px !important;
+    font-weight: 600 !important;
+    color: var(--opulent-secondary) !important;
+}
+
+/* خيارات المنتج */
+.product-options label, .variant-label {
+    font-weight: 500 !important;
+    color: var(--opulent-text) !important;
+    margin-bottom: 8px !important;
+}
+
+.size-option, .color-option, [class*="variant-option"] {
+    border: 2px solid var(--opulent-border) !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    transition: var(--opulent-transition) !important;
+}
+
+.size-option:hover, .size-option.selected,
+.color-option:hover, .color-option.selected {
+    border-color: var(--opulent-primary) !important;
+    background: rgba(201, 169, 110, 0.1) !important;
+}
+
+/* الكمية */
+.quantity-selector, [class*="quantity"] {
+    border: 2px solid var(--opulent-border) !important;
+    border-radius: var(--opulent-radius) !important;
+    overflow: hidden !important;
+}
+
+.quantity-selector button {
+    background: var(--opulent-gray) !important;
+    border: none !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+/* ─────────────────────────────────────────
+   سلة التسوق - Cart
+   ───────────────────────────────────────── */
+.cart-item, [class*="cart-item"] {
+    border-bottom: 1px solid var(--opulent-border) !important;
+    padding: 20px 0 !important;
+}
+
+.cart-total, [class*="cart-total"] {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: var(--opulent-secondary) !important;
+}
+
+/* ─────────────────────────────────────────
+   صفحة الدفع - Checkout
+   ───────────────────────────────────────── */
+.checkout-container, [class*="checkout"] {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* حقول الإدخال */
+input, textarea, select {
+    border: 2px solid var(--opulent-border) !important;
+    border-radius: var(--opulent-radius) !important;
+    padding: 14px 16px !important;
+    font-size: 14px !important;
+    transition: var(--opulent-transition) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--opulent-primary) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15) !important;
+}
+
+/* طرق الدفع */
+.payment-method, [class*="payment-option"] {
+    border: 2px solid var(--opulent-border) !important;
+    border-radius: var(--opulent-radius) !important;
+    padding: 16px !important;
+    margin-bottom: 12px !important;
+    transition: var(--opulent-transition) !important;
+}
+
+.payment-method:hover, .payment-method.selected {
+    border-color: var(--opulent-primary) !important;
+    background: rgba(201, 169, 110, 0.05) !important;
+}
+
+/* ملخص الطلب */
+.order-summary, [class*="order-summary"] {
+    background: var(--opulent-gray) !important;
+    border-radius: var(--opulent-radius) !important;
+    padding: 24px !important;
+}
+
+/* ─────────────────────────────────────────
+   الفوتر - Footer
+   ───────────────────────────────────────── */
+footer, .footer, [class*="footer"] {
+    background: var(--opulent-secondary) !important;
+    color: var(--opulent-white) !important;
+    padding: 60px 0 30px !important;
+}
+
+footer a, .footer a {
+    color: rgba(255,255,255,0.7) !important;
+    transition: var(--opulent-transition) !important;
+}
+
+footer a:hover, .footer a:hover {
+    color: var(--opulent-primary) !important;
+}
+
+footer h4, .footer h4, footer h3, .footer h3 {
+    color: var(--opulent-white) !important;
+    font-weight: 600 !important;
+    margin-bottom: 20px !important;
+}
+
+/* ─────────────────────────────────────────
+   تأثيرات عامة - General Effects
+   ───────────────────────────────────────── */
+
+/* الروابط */
+a {
+    color: var(--opulent-text) !important;
+    transition: var(--opulent-transition) !important;
+}
+
+a:hover {
+    color: var(--opulent-primary) !important;
+}
+
+/* العناوين */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--opulent-secondary) !important;
+    font-weight: 600 !important;
+}
+
+/* الأقسام */
+section {
+    padding: 60px 0 !important;
+}
+
+/* Container */
+.container {
+    max-width: 1400px !important;
+    padding: 0 20px !important;
+}
+
+/* ─────────────────────────────────────────
+   الصفحة الرئيسية - Homepage
+   ───────────────────────────────────────── */
+
+/* البانر/السلايدر */
+.slider, .banner, [class*="slider"], [class*="banner"], [class*="hero"] {
+    border-radius: var(--opulent-radius) !important;
+    overflow: hidden !important;
+}
+
+/* عناوين الأقسام */
+.section-title, [class*="section-title"] {
+    font-size: 28px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    margin-bottom: 40px !important;
+    position: relative !important;
+}
+
+.section-title::after {
+    content: '' !important;
+    display: block !important;
+    width: 60px !important;
+    height: 3px !important;
+    background: var(--opulent-primary) !important;
+    margin: 15px auto 0 !important;
+}
+
+/* ─────────────────────────────────────────
+   التقييمات - Reviews/Ratings
+   ───────────────────────────────────────── */
+.rating, [class*="rating"], [class*="stars"] {
+    color: var(--opulent-gold) !important;
+}
+
+/* ─────────────────────────────────────────
+   رسائل النجاح والخطأ - Alerts
+   ───────────────────────────────────────── */
+.alert-success, [class*="success"] {
+    background: #E8F5E9 !important;
+    color: #2E7D32 !important;
+    border-radius: var(--opulent-radius) !important;
+}
+
+.alert-error, [class*="error"], [class*="danger"] {
+    background: #FFEBEE !important;
+    color: #C62828 !important;
+    border-radius: var(--opulent-radius) !important;
+}
+
+/* ─────────────────────────────────────────
+   Responsive - التجاوب
+   ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .product-card, [class*="product-card"] {
+        margin-bottom: 20px !important;
+    }
+
+    h1 { font-size: 24px !important; }
+    h2, .section-title { font-size: 22px !important; }
+
+    .btn-primary, [class*="btn-primary"] {
+        width: 100% !important;
+        padding: 14px !important;
+    }
+}
+
+/* ─────────────────────────────────────────
+   تحسينات إضافية - Extra Enhancements
+   ───────────────────────────────────────── */
+
+/* سلة التسوق الصغيرة */
+.mini-cart, [class*="cart-icon"] .count {
+    background: var(--opulent-primary) !important;
+    color: white !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb, [class*="breadcrumb"] {
+    font-size: 13px !important;
+    color: var(--opulent-text-light) !important;
+}
+
+.breadcrumb a {
+    color: var(--opulent-text-light) !important;
+}
+
+.breadcrumb a:hover {
+    color: var(--opulent-primary) !important;
+}
+
+/* Loading */
+.loading, [class*="loading"], [class*="spinner"] {
+    border-color: var(--opulent-primary) !important;
+}
+
+/* Pagination */
+.pagination a, [class*="pagination"] a {
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+}
+
+.pagination .active, [class*="pagination"] .active {
+    background: var(--opulent-primary) !important;
+    color: white !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   نهاية الكود - End of OPULENT CSS
+   ═══════════════════════════════════════════════════════════ */
