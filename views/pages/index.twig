@@ -1,0 +1,148 @@
+{% extends 'layouts/master.twig' %}
+
+{% block title %}{{ store.name }} | عنوان الفخامة{% endblock %}
+
+{% block content %}
+
+{# Hero Section #}
+{% if theme.settings.homepage.show_hero and store.slider %}
+<section class="hero">
+    <div class="hero-slider">
+        {% for slide in store.slider %}
+        <div class="hero-slide">
+            <img src="{{ slide.image }}" alt="{{ slide.title }}">
+            {% if slide.title or slide.description %}
+            <div class="hero-content">
+                <h1 class="hero-title">{{ slide.title }}</h1>
+                <p class="hero-desc">{{ slide.description }}</p>
+                {% if slide.url %}
+                <a href="{{ slide.url }}" class="hero-btn">تسوق الآن</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{# Features Bar #}
+<section class="features-bar">
+    <div class="feature-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+        </svg>
+        <span>شحن مجاني فوق 500 ر.س</span>
+    </div>
+    <div class="feature-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span>توصيل سريع خلال 3 ساعات</span>
+    </div>
+    <div class="feature-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        <span>منتجات أصلية 100%</span>
+    </div>
+    <div class="feature-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+        <span>دفع آمن</span>
+    </div>
+</section>
+
+{# Categories Grid #}
+<section class="categories-section">
+    <div class="categories-grid">
+        {% for category in categories | slice(0, 3) %}
+        <a href="{{ category.url }}" class="category-card">
+            <img src="{{ category.image }}" alt="{{ category.name }}">
+            <span class="category-btn">{{ category.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+{# Latest Products #}
+<section class="products-section">
+    <div class="section-header">
+        <h2 class="section-title">وصل حديثاً</h2>
+        <a href="{{ link('products', {sort: 'latest'}) }}" class="view-all">عرض الكل</a>
+    </div>
+    <div class="products-scroll">
+        {% for product in products.latest(10) %}
+            {% include 'components/product-card.twig' with {'product': product} %}
+        {% endfor %}
+    </div>
+</section>
+
+{# Banner #}
+<section class="banner-section">
+    <img src="{{ store.banner_image | default('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1400') }}" alt="عروض حصرية">
+    <div class="banner-content">
+        <h3 class="banner-title">عروض نهاية الموسم</h3>
+        <p class="banner-desc">خصومات تصل إلى 50% على أفضل الماركات العالمية</p>
+        <a href="{{ link('offers') }}" class="banner-btn">تسوق العروض</a>
+    </div>
+</section>
+
+{# Best Sellers #}
+<section class="products-section">
+    <div class="section-header">
+        <h2 class="section-title">الأكثر مبيعاً</h2>
+        <a href="{{ link('products', {sort: 'best_selling'}) }}" class="view-all">عرض الكل</a>
+    </div>
+    <div class="products-scroll">
+        {% for product in products.best_selling(10) %}
+            {% include 'components/product-card.twig' with {'product': product} %}
+        {% endfor %}
+    </div>
+</section>
+
+{# Small Categories #}
+<section class="small-cats">
+    <h2 class="small-cats-title">تسوق حسب القسم</h2>
+    <div class="small-cats-grid">
+        {% for category in categories | slice(0, 6) %}
+        <a href="{{ category.url }}" class="small-cat-card">
+            <img src="{{ category.image }}" alt="{{ category.name }}">
+            <span class="small-cat-label">{{ category.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+{# On Sale Products #}
+<section class="products-section" style="background: var(--light);">
+    <div class="section-header">
+        <h2 class="section-title" style="color: var(--red);">تخفيضات</h2>
+        <a href="{{ link('offers') }}" class="view-all">عرض الكل</a>
+    </div>
+    <div class="products-scroll">
+        {% for product in products.on_sale(10) %}
+            {% include 'components/product-card.twig' with {'product': product} %}
+        {% endfor %}
+    </div>
+</section>
+
+{# Brands Section #}
+{% if brands | length > 0 %}
+<section class="brands-section">
+    <div class="section-header">
+        <h2 class="section-title">الماركات</h2>
+        <a href="{{ link('brands') }}" class="view-all">عرض الكل</a>
+    </div>
+    <div class="brands-grid">
+        {% for brand in brands | slice(0, 8) %}
+        <a href="{{ brand.url }}" class="brand-card">
+            <img src="{{ brand.logo }}" alt="{{ brand.name }}">
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
