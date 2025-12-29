@@ -1,6 +1,5 @@
-'use client';
-
 import Link from 'next/link';
+import { getProducts, getCategories, formatProduct } from '@/lib/salla';
 
 // Header Component
 function Header() {
@@ -14,12 +13,12 @@ function Header() {
           <div className="header-right">
             <div className="header-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
             </div>
             <div className="header-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
               </svg>
               <span>حسابي</span>
             </div>
@@ -32,12 +31,12 @@ function Header() {
           <div className="header-left">
             <div className="header-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
               </svg>
             </div>
             <div className="header-icon">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
               </svg>
               <span className="count">0</span>
             </div>
@@ -70,25 +69,25 @@ function FeaturesBar() {
     <section className="features-bar">
       <div className="feature-item">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
         </svg>
         <span>شحن مجاني فوق 500 ر.س</span>
       </div>
       <div className="feature-item">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z"/>
         </svg>
         <span>توصيل سريع خلال 3 ساعات</span>
       </div>
       <div className="feature-item">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
         </svg>
         <span>منتجات أصلية 100%</span>
       </div>
       <div className="feature-item">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
         <span>دفع آمن</span>
       </div>
@@ -123,11 +122,13 @@ function ProductCard({ product }) {
   return (
     <Link href={`/product/${product.id}`} className="product-card">
       <div className="product-image">
-        <img src={product.image} alt={product.name} />
-        {product.badge && <span className={`product-badge ${product.badge.type}`}>{product.badge.text}</span>}
+        <img src={product.image || 'https://via.placeholder.com/400'} alt={product.name} />
+        {product.oldPrice && (
+          <span className="product-badge sale">تخفيض</span>
+        )}
         <div className="product-wishlist">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
           </svg>
         </div>
       </div>
@@ -135,8 +136,8 @@ function ProductCard({ product }) {
         <div className="product-brand">{product.brand}</div>
         <div className="product-name">{product.name}</div>
         <div className="product-price">
-          {product.price} ر.س
-          {product.oldPrice && <span className="old">{product.oldPrice} ر.س</span>}
+          {product.price?.toLocaleString()} ر.س
+          {product.oldPrice && <span className="old">{product.oldPrice?.toLocaleString()} ر.س</span>}
         </div>
       </div>
     </Link>
@@ -153,7 +154,7 @@ function ProductsSection({ title, products }) {
       </div>
       <div className="products-scroll">
         {products.map((product, index) => (
-          <ProductCard key={index} product={product} />
+          <ProductCard key={product.id || index} product={product} />
         ))}
       </div>
     </section>
@@ -201,7 +202,7 @@ function Footer() {
         </div>
         <div className="footer-col">
           <h4>تواصل معنا</h4>
-          <a href="mailto:support@katheeb.sa">support@katheeb.sa</a>
+          <a href="mailto:support@katheeb.shop">support@katheeb.shop</a>
           <a href="tel:8001234567">8001234567</a>
         </div>
       </div>
@@ -212,26 +213,41 @@ function Footer() {
   );
 }
 
-// Sample Products Data (will be replaced with Salla API)
+// Sample Products (fallback if API fails)
 const sampleProducts = [
-  { id: 1, brand: 'TOM FORD', name: 'نظارة شمسية أفياتور ذهبي', price: '1,850', image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400' },
-  { id: 2, brand: 'ROLEX', name: 'ساعة أويستر بربتشوال فضي', price: '45,000', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400' },
-  { id: 3, brand: 'VALENTINO GARAVANI', name: 'حقيبة فالنتينو جلد أسود', price: '8,500', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400' },
-  { id: 4, brand: 'DIOR', name: 'عطر سوفاج أو دو بارفان', price: '580', oldPrice: '725', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400', badge: { type: 'sale', text: '-20%' } },
-  { id: 5, brand: 'GUCCI', name: 'حقيبة GG Marmont جلد أسود', price: '8,500', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400', badge: { type: 'new', text: 'جديد' } },
-  { id: 6, brand: 'CARTIER', name: 'ساعة تانك فرانسيز ذهبي', price: '78,000', image: 'https://images.unsplash.com/photo-1526045431048-f857369baa09?w=400' },
+  { id: 1, brand: 'TOM FORD', name: 'نظارة شمسية أفياتور ذهبي', price: 1850, image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400' },
+  { id: 2, brand: 'ROLEX', name: 'ساعة أويستر بربتشوال فضي', price: 45000, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400' },
+  { id: 3, brand: 'VALENTINO', name: 'حقيبة فالنتينو جلد أسود', price: 8500, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400' },
+  { id: 4, brand: 'DIOR', name: 'عطر سوفاج أو دو بارفان', price: 580, oldPrice: 725, image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400' },
+  { id: 5, brand: 'GUCCI', name: 'حقيبة GG Marmont جلد أسود', price: 8500, image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400' },
+  { id: 6, brand: 'CARTIER', name: 'ساعة تانك فرانسيز ذهبي', price: 78000, image: 'https://images.unsplash.com/photo-1526045431048-f857369baa09?w=400' },
 ];
 
-// Main Page
-export default function Home() {
+// Main Page (Server Component)
+export default async function Home() {
+  let products = [];
+
+  try {
+    // Try to fetch products from Salla API
+    const sallaProducts = await getProducts();
+    products = sallaProducts.map(formatProduct);
+  } catch (error) {
+    console.log('Using sample products');
+  }
+
+  // Use sample products if no products from API
+  if (products.length === 0) {
+    products = sampleProducts;
+  }
+
   return (
     <>
       <Header />
       <FeaturesBar />
       <CategoriesGrid />
-      <ProductsSection title="أبرز التصاميم" products={sampleProducts} />
+      <ProductsSection title="أبرز التصاميم" products={products.slice(0, 6)} />
       <BannerSection />
-      <ProductsSection title="الهدية المثالية" products={sampleProducts.slice().reverse()} />
+      <ProductsSection title="الهدية المثالية" products={products.slice().reverse().slice(0, 6)} />
       <Footer />
     </>
   );
