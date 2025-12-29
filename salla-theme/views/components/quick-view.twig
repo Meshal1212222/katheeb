@@ -1,0 +1,342 @@
+{#
+ # OPULENT - Quick View Modal Component
+ # مكون العرض السريع للمنتج
+ #}
+
+<div id="quick-view-modal" class="quick-view-modal" aria-hidden="true">
+    <div class="quick-view-overlay" onclick="closeQuickView()"></div>
+    <div class="quick-view-container">
+        <button class="quick-view-close" onclick="closeQuickView()" aria-label="إغلاق">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+
+        <div class="quick-view-content">
+            {# Product Gallery #}
+            <div class="quick-view-gallery">
+                <div class="quick-view-main-image">
+                    <img id="quick-view-image" src="" alt="">
+                    {% if theme.settings.product_card.show_badges %}
+                    <div class="quick-view-badges">
+                        <span class="badge badge-sale" style="display:none;">خصم</span>
+                        <span class="badge badge-new" style="display:none;">جديد</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="quick-view-thumbs" id="quick-view-thumbs">
+                    {# Thumbnails will be populated via JS #}
+                </div>
+            </div>
+
+            {# Product Info #}
+            <div class="quick-view-info">
+                <div class="quick-view-brand" id="quick-view-brand"></div>
+                <h2 class="quick-view-title" id="quick-view-title"></h2>
+
+                <div class="quick-view-rating" id="quick-view-rating">
+                    <div class="stars">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <span class="rating-count"></span>
+                </div>
+
+                <div class="quick-view-price">
+                    <span class="current-price" id="quick-view-price"></span>
+                    <span class="old-price" id="quick-view-old-price"></span>
+                    <span class="discount-badge" id="quick-view-discount"></span>
+                </div>
+
+                <p class="quick-view-description" id="quick-view-description"></p>
+
+                {# Product Options #}
+                <div class="quick-view-options">
+                    {# Colors #}
+                    <div class="option-group" id="quick-view-colors" style="display:none;">
+                        <label>اللون:</label>
+                        <div class="color-options">
+                            {# Colors populated via JS #}
+                        </div>
+                    </div>
+
+                    {# Sizes #}
+                    <div class="option-group" id="quick-view-sizes" style="display:none;">
+                        <label>المقاس:</label>
+                        <div class="size-options">
+                            {# Sizes populated via JS #}
+                        </div>
+                    </div>
+                </div>
+
+                {# Quantity & Add to Cart #}
+                <div class="quick-view-actions">
+                    <div class="quantity-control">
+                        <button type="button" onclick="updateQuickViewQty(-1)">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                            </svg>
+                        </button>
+                        <input type="number" id="quick-view-qty" value="1" min="1" max="99" readonly>
+                        <button type="button" onclick="updateQuickViewQty(1)">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <button class="btn-add-cart" id="quick-view-add-cart" onclick="addToCartFromQuickView()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <span>أضف للسلة</span>
+                    </button>
+                </div>
+
+                {# Secondary Actions #}
+                <div class="quick-view-secondary">
+                    <button class="btn-wishlist" onclick="toggleQuickViewWishlist()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                        <span>أضف للمفضلة</span>
+                    </button>
+
+                    {% if theme.settings.advanced.enable_compare %}
+                    <button class="btn-compare" onclick="addToCompare()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <span>قارن</span>
+                    </button>
+                    {% endif %}
+
+                    <button class="btn-share" onclick="shareProduct()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        </svg>
+                        <span>مشاركة</span>
+                    </button>
+                </div>
+
+                {# View Full Details Link #}
+                <a href="#" id="quick-view-link" class="quick-view-full-link">
+                    عرض التفاصيل الكاملة
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Quick View State
+let quickViewProduct = null;
+let quickViewQty = 1;
+
+// Open Quick View
+function openQuickView(productData) {
+    quickViewProduct = productData;
+    quickViewQty = 1;
+
+    const modal = document.getElementById('quick-view-modal');
+
+    // Populate data
+    document.getElementById('quick-view-image').src = productData.image;
+    document.getElementById('quick-view-brand').textContent = productData.brand || '';
+    document.getElementById('quick-view-title').textContent = productData.name;
+    document.getElementById('quick-view-price').textContent = formatPrice(productData.price);
+    document.getElementById('quick-view-description').textContent = productData.description || '';
+    document.getElementById('quick-view-link').href = productData.url || '#';
+    document.getElementById('quick-view-qty').value = 1;
+
+    // Old price & discount
+    const oldPriceEl = document.getElementById('quick-view-old-price');
+    const discountEl = document.getElementById('quick-view-discount');
+    if (productData.oldPrice && productData.oldPrice > productData.price) {
+        oldPriceEl.textContent = formatPrice(productData.oldPrice);
+        oldPriceEl.style.display = 'inline';
+        const discount = Math.round((1 - productData.price / productData.oldPrice) * 100);
+        discountEl.textContent = `-${discount}%`;
+        discountEl.style.display = 'inline';
+    } else {
+        oldPriceEl.style.display = 'none';
+        discountEl.style.display = 'none';
+    }
+
+    // Colors
+    const colorsContainer = document.getElementById('quick-view-colors');
+    if (productData.colors && productData.colors.length > 0) {
+        colorsContainer.style.display = 'block';
+        const colorsHtml = productData.colors.map((color, i) =>
+            `<button class="color-btn ${i === 0 ? 'selected' : ''}"
+                     style="background-color: ${color.hex}"
+                     data-color="${color.name}"
+                     onclick="selectQuickViewColor(this)"></button>`
+        ).join('');
+        colorsContainer.querySelector('.color-options').innerHTML = colorsHtml;
+    } else {
+        colorsContainer.style.display = 'none';
+    }
+
+    // Sizes
+    const sizesContainer = document.getElementById('quick-view-sizes');
+    if (productData.sizes && productData.sizes.length > 0) {
+        sizesContainer.style.display = 'block';
+        const sizesHtml = productData.sizes.map((size, i) =>
+            `<button class="size-btn ${i === 0 ? 'selected' : ''}"
+                     data-size="${size}"
+                     onclick="selectQuickViewSize(this)">${size}</button>`
+        ).join('');
+        sizesContainer.querySelector('.size-options').innerHTML = sizesHtml;
+    } else {
+        sizesContainer.style.display = 'none';
+    }
+
+    // Thumbnails
+    const thumbsContainer = document.getElementById('quick-view-thumbs');
+    if (productData.images && productData.images.length > 1) {
+        const thumbsHtml = productData.images.map((img, i) =>
+            `<div class="thumb ${i === 0 ? 'active' : ''}" onclick="changeQuickViewImage('${img}', this)">
+                <img src="${img}" alt="">
+            </div>`
+        ).join('');
+        thumbsContainer.innerHTML = thumbsHtml;
+        thumbsContainer.style.display = 'flex';
+    } else {
+        thumbsContainer.style.display = 'none';
+    }
+
+    // Show modal
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Quick View
+function closeQuickView() {
+    const modal = document.getElementById('quick-view-modal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    quickViewProduct = null;
+}
+
+// Update Quantity
+function updateQuickViewQty(delta) {
+    const input = document.getElementById('quick-view-qty');
+    const newVal = parseInt(input.value) + delta;
+    if (newVal >= 1 && newVal <= 99) {
+        input.value = newVal;
+        quickViewQty = newVal;
+    }
+}
+
+// Select Color
+function selectQuickViewColor(btn) {
+    btn.parentElement.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+// Select Size
+function selectQuickViewSize(btn) {
+    btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+// Change Image
+function changeQuickViewImage(src, thumb) {
+    document.getElementById('quick-view-image').src = src;
+    document.querySelectorAll('#quick-view-thumbs .thumb').forEach(t => t.classList.remove('active'));
+    if (thumb) thumb.classList.add('active');
+}
+
+// Add to Cart from Quick View
+function addToCartFromQuickView() {
+    if (!quickViewProduct) return;
+
+    const selectedColor = document.querySelector('#quick-view-colors .color-btn.selected');
+    const selectedSize = document.querySelector('#quick-view-sizes .size-btn.selected');
+
+    const product = {
+        ...quickViewProduct,
+        quantity: quickViewQty,
+        color: selectedColor ? selectedColor.dataset.color : null,
+        size: selectedSize ? selectedSize.dataset.size : null
+    };
+
+    // Use Salla's cart API if available
+    if (typeof salla !== 'undefined' && salla.cart) {
+        salla.cart.addItem({
+            id: product.id,
+            quantity: product.quantity
+        }).then(() => {
+            closeQuickView();
+            showToast('تمت الإضافة للسلة ✓');
+        });
+    } else {
+        // Fallback for demo
+        if (typeof katheebCart !== 'undefined') {
+            katheebCart.addToCart(product);
+        }
+        closeQuickView();
+    }
+}
+
+// Toggle Wishlist
+function toggleQuickViewWishlist() {
+    if (!quickViewProduct) return;
+
+    const btn = document.querySelector('.quick-view-secondary .btn-wishlist');
+    const svg = btn.querySelector('svg');
+
+    if (typeof salla !== 'undefined' && salla.wishlist) {
+        salla.wishlist.toggle(quickViewProduct.id).then(response => {
+            if (response.data.is_wishlisted) {
+                svg.style.fill = 'var(--red)';
+                svg.style.stroke = 'var(--red)';
+                showToast('تمت الإضافة للمفضلة ♥');
+            } else {
+                svg.style.fill = 'none';
+                svg.style.stroke = 'currentColor';
+                showToast('تم الحذف من المفضلة');
+            }
+        });
+    } else {
+        // Toggle visual state for demo
+        const isFilled = svg.style.fill === 'var(--red)';
+        svg.style.fill = isFilled ? 'none' : 'var(--red)';
+        svg.style.stroke = isFilled ? 'currentColor' : 'var(--red)';
+        showToast(isFilled ? 'تم الحذف من المفضلة' : 'تمت الإضافة للمفضلة ♥');
+    }
+}
+
+// Share Product
+function shareProduct() {
+    if (!quickViewProduct) return;
+
+    if (navigator.share) {
+        navigator.share({
+            title: quickViewProduct.name,
+            url: quickViewProduct.url || window.location.href
+        });
+    } else {
+        // Copy URL to clipboard
+        navigator.clipboard.writeText(quickViewProduct.url || window.location.href);
+        showToast('تم نسخ الرابط');
+    }
+}
+
+// Format Price Helper
+function formatPrice(price) {
+    return new Intl.NumberFormat('ar-SA').format(price) + ' ر.س';
+}
+
+// Close on Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeQuickView();
+});
+</script>

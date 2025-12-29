@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب | كثيب KATHEEB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#FAFAFA; --text:#222; --accent:#C9A96E; --light:#F5F5F5; --border:#E5E5E5; --success:#2E7D32; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Readex Pro',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+        .header { background:white; padding:20px 40px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+        .logo img { height:50px; }
+        .secure-badge { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--success); }
+        .secure-badge svg { width:20px; height:20px; }
+        .progress-bar { background:white; padding:30px 40px; border-bottom:1px solid var(--border); }
+        .progress-steps { display:flex; justify-content:center; align-items:center; max-width:600px; margin:0 auto; }
+        .step { display:flex; align-items:center; gap:10px; }
+        .step-number { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600; background:var(--border); color:#999; }
+        .step.active .step-number { background:var(--accent); color:white; }
+        .step.completed .step-number { background:var(--success); color:white; }
+        .step-label { font-size:13px; color:#999; }
+        .step.active .step-label { color:var(--text); font-weight:500; }
+        .step-line { width:80px; height:2px; background:var(--border); margin:0 15px; }
+        .step-line.completed { background:var(--success); }
+        .main-content { display:grid; grid-template-columns:1fr 420px; gap:40px; max-width:1200px; margin:40px auto; padding:0 40px; }
+        .form-section { background:white; border-radius:12px; padding:35px; box-shadow:0 2px 20px rgba(0,0,0,0.05); }
+        .section-title { font-size:20px; font-weight:600; margin-bottom:25px; display:flex; align-items:center; gap:12px; }
+        .section-title svg { width:24px; height:24px; stroke:var(--accent); }
+        .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        .form-group { margin-bottom:20px; }
+        .form-group.full-width { grid-column:span 2; }
+        .form-group label { display:block; font-size:13px; font-weight:500; margin-bottom:8px; color:#555; }
+        .form-group input, .form-group select, .form-group textarea { width:100%; padding:14px 16px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:inherit; }
+        .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--accent); }
+        .form-group textarea { resize:none; height:100px; }
+        .gift-option { display:flex; align-items:center; gap:12px; padding:18px; background:linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.05)); border-radius:10px; margin-top:20px; cursor:pointer; }
+        .gift-checkbox { width:22px; height:22px; border:2px solid var(--accent); border-radius:5px; }
+        .gift-title { font-size:14px; font-weight:500; }
+        .gift-desc { font-size:12px; color:#888; }
+        .gift-free { font-size:12px; color:var(--success); font-weight:600; margin-right:auto; }
+        .payment-methods { margin-top:30px; }
+        .payment-option { display:flex; align-items:center; gap:15px; padding:18px 20px; border:2px solid var(--border); border-radius:10px; margin-bottom:12px; cursor:pointer; }
+        .payment-option:hover, .payment-option.selected { border-color:var(--accent); }
+        .payment-option.selected { background:rgba(201,169,110,0.05); }
+        .payment-radio { width:22px; height:22px; border:2px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+        .payment-option.selected .payment-radio { border-color:var(--accent); }
+        .payment-option.selected .payment-radio::after { content:''; width:12px; height:12px; background:var(--accent); border-radius:50%; }
+        .payment-icon { width:50px; height:32px; background:var(--light); border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; }
+        .payment-name { font-size:14px; font-weight:500; }
+        .payment-desc { font-size:12px; color:#888; }
+        .order-summary { background:white; border-radius:12px; padding:30px; box-shadow:0 2px 20px rgba(0,0,0,0.05); height:fit-content; position:sticky; top:20px; }
+        .summary-title { font-size:18px; font-weight:600; margin-bottom:25px; padding-bottom:15px; border-bottom:1px solid var(--border); }
+        .cart-item { display:flex; gap:15px; padding:15px 0; border-bottom:1px solid var(--light); }
+        .item-image { width:80px; height:80px; border-radius:8px; background:var(--light); overflow:hidden; }
+        .item-image img { width:100%; height:100%; object-fit:cover; }
+        .item-brand { font-size:10px; color:#999; letter-spacing:1px; }
+        .item-name { font-size:13px; margin:5px 0; }
+        .item-meta { font-size:11px; color:#888; }
+        .item-price { font-size:14px; font-weight:600; }
+        .promo-section { margin:20px 0; padding:20px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .promo-input { display:flex; gap:10px; }
+        .promo-input input { flex:1; padding:12px 15px; border:1px solid var(--border); border-radius:8px; font-size:13px; }
+        .promo-input button { padding:12px 20px; background:var(--text); color:white; border:none; border-radius:8px; cursor:pointer; }
+        .summary-row { display:flex; justify-content:space-between; padding:10px 0; font-size:14px; }
+        .summary-row.total { font-size:18px; font-weight:600; padding-top:15px; margin-top:10px; border-top:2px solid var(--text); }
+        .free-shipping { color:var(--success); font-weight:500; }
+        .checkout-btn { width:100%; padding:18px; background:var(--accent); color:white; border:none; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; margin-top:20px; display:flex; align-items:center; justify-content:center; gap:10px; }
+        .checkout-btn:hover { background:#b8983f; }
+        .checkout-btn svg { width:20px; height:20px; }
+        .trust-section { margin-top:25px; padding-top:20px; border-top:1px solid var(--border); }
+        .trust-badges { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
+        .trust-badge { display:flex; align-items:center; gap:10px; font-size:11px; color:#666; }
+        .trust-badge svg { width:20px; height:20px; stroke:var(--success); }
+        .features-banner { background:linear-gradient(135deg, var(--text), #333); padding:20px 40px; margin-top:40px; }
+        .features-grid { display:flex; justify-content:center; gap:60px; max-width:1200px; margin:0 auto; }
+        .feature { display:flex; align-items:center; gap:12px; color:white; font-size:13px; }
+        .feature svg { width:24px; height:24px; stroke:var(--accent); }
+        @media (max-width:1024px) { .main-content { grid-template-columns:1fr; } }
+        @media (max-width:768px) { .header { padding:15px 20px; } .logo img { height:40px; } .main-content { padding:0 20px; } .form-grid { grid-template-columns:1fr; } .form-group.full-width { grid-column:span 1; } .features-grid { flex-direction:column; gap:20px; align-items:center; } .step-label { display:none; } .step-line { width:40px; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="كثيب"></a>
+        <div class="secure-badge"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>دفع آمن 100%</span></div>
+    </header>
+    <div class="progress-bar"><div class="progress-steps"><div class="step completed"><div class="step-number">✓</div><span class="step-label">السلة</span></div><div class="step-line completed"></div><div class="step active"><div class="step-number">2</div><span class="step-label">بيانات الشحن</span></div><div class="step-line"></div><div class="step"><div class="step-number">3</div><span class="step-label">الدفع</span></div><div class="step-line"></div><div class="step"><div class="step-number">4</div><span class="step-label">تأكيد</span></div></div></div>
+    <main class="main-content">
+        <div class="form-section">
+            <h2 class="section-title"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>عنوان الشحن</h2>
+            <div class="form-grid">
+                <div class="form-group"><label>الاسم الأول *</label><input type="text" placeholder="أدخل اسمك الأول"></div>
+                <div class="form-group"><label>اسم العائلة *</label><input type="text" placeholder="أدخل اسم العائلة"></div>
+                <div class="form-group full-width"><label>رقم الجوال *</label><input type="tel" placeholder="05xxxxxxxx"></div>
+                <div class="form-group full-width"><label>البريد الإلكتروني *</label><input type="email" placeholder="email@example.com"></div>
+                <div class="form-group"><label>المدينة *</label><select><option value="">اختر المدينة</option><option>الرياض</option><option>جدة</option><option>الدمام</option><option>مكة</option><option>المدينة</option></select></div>
+                <div class="form-group"><label>الحي *</label><input type="text" placeholder="اسم الحي"></div>
+                <div class="form-group full-width"><label>العنوان التفصيلي *</label><textarea placeholder="رقم المبنى، الشارع، علامة مميزة..."></textarea></div>
+            </div>
+            <div class="gift-option"><div class="gift-checkbox"></div><div><div class="gift-title">🎁 تغليف كهدية</div><div class="gift-desc">تغليف فاخر مع بطاقة إهداء</div></div><div class="gift-free">مجاناً</div></div>
+            <div class="payment-methods">
+                <h2 class="section-title"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>طريقة الدفع</h2>
+                <div class="payment-option selected"><div class="payment-radio"></div><div class="payment-icon">💳</div><div><div class="payment-name">بطاقة ائتمان / مدى</div><div class="payment-desc">Visa, Mastercard, مدى</div></div></div>
+                <div class="payment-option"><div class="payment-radio"></div><div class="payment-icon">🍎</div><div><div class="payment-name">Apple Pay</div><div class="payment-desc">ادفع بسرعة وأمان</div></div></div>
+                <div class="payment-option"><div class="payment-radio"></div><div class="payment-icon" style="color:#9b5de5;">STC</div><div><div class="payment-name">STC Pay</div><div class="payment-desc">محفظة STC الرقمية</div></div></div>
+                <div class="payment-option"><div class="payment-radio"></div><div class="payment-icon" style="background:#3EBFAE;color:white;">T</div><div><div class="payment-name">تمارا - قسّطها على 4 دفعات</div><div class="payment-desc">بدون فوائد</div></div></div>
+                <div class="payment-option"><div class="payment-radio"></div><div class="payment-icon">💵</div><div><div class="payment-name">الدفع عند الاستلام</div><div class="payment-desc">رسوم إضافية 15 ر.س</div></div></div>
+            </div>
+        </div>
+        <aside class="order-summary">
+            <h3 class="summary-title">ملخص الطلب</h3>
+            <div class="cart-item"><div class="item-image"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200" alt=""></div><div style="flex:1;"><div class="item-brand">GUCCI</div><div class="item-name">حقيبة GG Marmont جلد</div><div class="item-meta">اللون: أسود | الكمية: 1</div></div><div class="item-price">8,500 ر.س</div></div>
+            <div class="cart-item"><div class="item-image"><img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=200" alt=""></div><div style="flex:1;"><div class="item-brand">BALENCIAGA</div><div class="item-name">Triple S Sneakers</div><div class="item-meta">المقاس: 42 | الكمية: 1</div></div><div class="item-price">4,200 ر.س</div></div>
+            <div class="cart-item"><div class="item-image"><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200" alt=""></div><div style="flex:1;"><div class="item-brand">FEAR OF GOD</div><div class="item-name">تيشيرت Essentials</div><div class="item-meta">المقاس: L | الكمية: 2</div></div><div class="item-price">900 ر.س</div></div>
+            <div class="promo-section"><div class="promo-input"><input type="text" placeholder="كود الخصم"><button>تطبيق</button></div></div>
+            <div class="summary-row"><span>المجموع الفرعي</span><span>13,600 ر.س</span></div>
+            <div class="summary-row"><span>الشحن</span><span class="free-shipping">مجاني ✨</span></div>
+            <div class="summary-row"><span>الضريبة (15%)</span><span>2,040 ر.س</span></div>
+            <div class="summary-row total"><span>الإجمالي</span><span>15,640 ر.س</span></div>
+            <button class="checkout-btn" onclick="window.location.href='https://salla.sa/85c36bd8-1045-4d60-a9cc-84c41ec99d8b'"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>إتمام الطلب الآن</button>
+            <div class="trust-section"><div class="trust-badges"><div class="trust-badge"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>منتجات أصلية 100%</span></div><div class="trust-badge"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>توصيل 3 ساعات</span></div><div class="trust-badge"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg><span>إرجاع 14 يوم</span></div><div class="trust-badge"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span>دعم 24/7</span></div></div></div>
+        </aside>
+    </main>
+    <div class="features-banner"><div class="features-grid"><div class="feature"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg><span>تغليف هدايا مجاني</span></div><div class="feature"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span>توصيل سريع</span></div><div class="feature"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>ضمان الأصالة</span></div><div class="feature"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>دفع آمن</span></div></div></div>
+</body>
+</html>

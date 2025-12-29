@@ -1,0 +1,580 @@
+{#
+ # OPULENT - Mega Menu Component
+ # مكون الميجا مينيو
+ #}
+
+{% if theme.settings.navigation.mega_menu_enabled %}
+<nav class="mega-menu-wrapper">
+    <ul class="mega-menu">
+        {% for category in store.categories %}
+        <li class="mega-menu-item {% if category.children|length > 0 %}has-children{% endif %}">
+            <a href="{{ category.url }}" class="mega-menu-link">
+                {{ category.name }}
+                {% if category.children|length > 0 %}
+                <svg class="chevron" width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+                {% endif %}
+            </a>
+
+            {% if category.children|length > 0 %}
+            <div class="mega-dropdown">
+                <div class="mega-dropdown-container">
+                    {# Categories Column #}
+                    <div class="mega-column mega-categories">
+                        <h4 class="mega-column-title">{{ category.name }}</h4>
+                        <ul class="mega-subcategories">
+                            {% for child in category.children %}
+                            <li>
+                                <a href="{{ child.url }}">
+                                    {% if child.icon %}
+                                    <img src="{{ child.icon }}" alt="" class="subcategory-icon">
+                                    {% endif %}
+                                    {{ child.name }}
+                                    {% if child.products_count %}
+                                    <span class="count">({{ child.products_count }})</span>
+                                    {% endif %}
+                                </a>
+                                {% if child.children|length > 0 %}
+                                <ul class="mega-sub-subcategories">
+                                    {% for subchild in child.children %}
+                                    <li><a href="{{ subchild.url }}">{{ subchild.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{{ category.url }}" class="mega-view-all">
+                            عرض الكل
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    {# Featured Products Column #}
+                    {% if theme.settings.navigation.mega_menu_show_products %}
+                    <div class="mega-column mega-featured">
+                        <h4 class="mega-column-title">منتجات مميزة</h4>
+                        <div class="mega-products">
+                            {% for product in category.featured_products|slice(0, 3) %}
+                            <a href="{{ product.url }}" class="mega-product">
+                                <div class="mega-product-image">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                                    {% if product.sale_price %}
+                                    <span class="mega-product-badge">خصم</span>
+                                    {% endif %}
+                                </div>
+                                <div class="mega-product-info">
+                                    <span class="mega-product-name">{{ product.name|truncate(30) }}</span>
+                                    <span class="mega-product-price">
+                                        {{ product.price|money }}
+                                        {% if product.sale_price %}
+                                        <del>{{ product.regular_price|money }}</del>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {# Promo Banner Column #}
+                    {% if theme.settings.navigation.mega_menu_banner %}
+                    <div class="mega-column mega-promo">
+                        <a href="{{ theme.settings.navigation.mega_menu_banner_link }}" class="mega-banner">
+                            <img src="{{ theme.settings.navigation.mega_menu_banner }}" alt="عروض حصرية">
+                            <div class="mega-banner-content">
+                                <span class="mega-banner-subtitle">عروض خاصة</span>
+                                <span class="mega-banner-title">خصم يصل إلى 50%</span>
+                                <span class="mega-banner-cta">تسوق الآن</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {# Brands Column (if applicable) #}
+                    {% if theme.settings.navigation.mega_menu_show_brands and category.brands|length > 0 %}
+                    <div class="mega-column mega-brands">
+                        <h4 class="mega-column-title">الماركات</h4>
+                        <div class="mega-brands-grid">
+                            {% for brand in category.brands|slice(0, 6) %}
+                            <a href="{{ brand.url }}" class="mega-brand">
+                                {% if brand.logo %}
+                                <img src="{{ brand.logo }}" alt="{{ brand.name }}">
+                                {% else %}
+                                <span>{{ brand.name }}</span>
+                                {% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </li>
+        {% endfor %}
+
+        {# Static Links #}
+        {% if theme.settings.navigation.show_offers_link %}
+        <li class="mega-menu-item highlight">
+            <a href="/offers" class="mega-menu-link">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/>
+                </svg>
+                العروض
+                <span class="badge-hot">HOT</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% if theme.settings.navigation.show_new_arrivals_link %}
+        <li class="mega-menu-item">
+            <a href="/new-arrivals" class="mega-menu-link">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                وصل حديثاً
+            </a>
+        </li>
+        {% endif %}
+
+        {% if theme.settings.navigation.show_brands_link %}
+        <li class="mega-menu-item has-children">
+            <a href="/brands" class="mega-menu-link">
+                الماركات
+                <svg class="chevron" width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </a>
+            <div class="mega-dropdown mega-dropdown-brands">
+                <div class="mega-dropdown-container">
+                    <div class="mega-brands-full">
+                        {% for brand in store.brands|slice(0, 12) %}
+                        <a href="{{ brand.url }}" class="mega-brand-item">
+                            {% if brand.logo %}
+                            <img src="{{ brand.logo }}" alt="{{ brand.name }}">
+                            {% else %}
+                            <span>{{ brand.name }}</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <a href="/brands" class="mega-view-all-brands">
+                        عرض جميع الماركات
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<style>
+/* Mega Menu Styles */
+.mega-menu-wrapper {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.mega-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.mega-menu-item {
+    position: relative;
+}
+
+.mega-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 20px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.mega-menu-link:hover,
+.mega-menu-item:hover .mega-menu-link {
+    color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.05);
+}
+
+.mega-menu-link .chevron {
+    transition: transform 0.3s ease;
+}
+
+.mega-menu-item:hover .chevron {
+    transform: rotate(180deg);
+}
+
+.mega-menu-item.highlight .mega-menu-link {
+    color: var(--red);
+}
+
+.badge-hot {
+    background: var(--red);
+    color: white;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 4px;
+    animation: pulse 2s infinite;
+}
+
+/* Mega Dropdown */
+.mega-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 800px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.mega-menu-item:hover .mega-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mega-dropdown-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 30px;
+}
+
+/* Mega Columns */
+.mega-column {
+    min-width: 0;
+}
+
+.mega-column-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+}
+
+/* Subcategories */
+.mega-subcategories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mega-subcategories li {
+    margin-bottom: 8px;
+}
+
+.mega-subcategories a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    font-size: 14px;
+    text-decoration: none;
+    padding: 6px 0;
+    transition: all 0.2s ease;
+}
+
+.mega-subcategories a:hover {
+    color: var(--primary);
+    padding-right: 8px;
+}
+
+.subcategory-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.mega-subcategories .count {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.mega-sub-subcategories {
+    list-style: none;
+    padding: 8px 0 0 16px;
+    margin: 0;
+}
+
+.mega-sub-subcategories a {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.mega-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 16px;
+    transition: gap 0.2s ease;
+}
+
+.mega-view-all:hover {
+    gap: 8px;
+}
+
+/* Featured Products */
+.mega-products {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mega-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.mega-product:hover {
+    background: var(--background);
+}
+
+.mega-product-image {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mega-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mega-product-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--red);
+    color: white;
+    font-size: 9px;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.mega-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.mega-product-name {
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mega-product-price {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.mega-product-price del {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 6px;
+}
+
+/* Promo Banner */
+.mega-banner {
+    display: block;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+    min-height: 200px;
+}
+
+.mega-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mega-banner-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mega-banner-subtitle {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.mega-banner-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.mega-banner-cta {
+    font-size: 13px;
+    color: var(--primary);
+    margin-top: 8px;
+}
+
+/* Brands Grid */
+.mega-brands-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.mega-brand,
+.mega-brand-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: var(--background);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mega-brand:hover,
+.mega-brand-item:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+}
+
+.mega-brand img,
+.mega-brand-item img {
+    max-width: 80px;
+    max-height: 40px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+.mega-brand:hover img,
+.mega-brand-item:hover img {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+.mega-brand span,
+.mega-brand-item span {
+    font-size: 12px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Full Brands Dropdown */
+.mega-dropdown-brands .mega-dropdown-container {
+    display: block;
+}
+
+.mega-brands-full {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.mega-view-all-brands {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: var(--background);
+    border-radius: 8px;
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mega-view-all-brands:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .mega-menu-wrapper {
+        display: none;
+    }
+}
+
+/* Dark Mode */
+[data-theme="dark"] .mega-dropdown {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .mega-brand img,
+[data-theme="dark"] .mega-brand-item img {
+    filter: grayscale(100%) brightness(1.5);
+}
+
+[data-theme="dark"] .mega-brand:hover img,
+[data-theme="dark"] .mega-brand-item:hover img {
+    filter: grayscale(0) brightness(1);
+}
+
+/* Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+</style>

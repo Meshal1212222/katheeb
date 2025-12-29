@@ -1,0 +1,272 @@
+{% extends 'layouts/master.twig' %}
+
+{% block title %}إتمام الطلب | {{ store.name }}{% endblock %}
+
+{% block body_class %}checkout-page{% endblock %}
+
+{% block content %}
+
+{# Progress Bar #}
+<div class="progress-bar">
+    <div class="progress-steps">
+        <div class="step completed">
+            <div class="step-number">✓</div>
+            <span class="step-label">السلة</span>
+        </div>
+        <div class="step-line completed"></div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <span class="step-label">بيانات الشحن</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <span class="step-label">الدفع</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">4</div>
+            <span class="step-label">تأكيد</span>
+        </div>
+    </div>
+</div>
+
+<div class="checkout-content">
+    {# Checkout Form #}
+    <div class="form-section">
+        <form id="checkout-form" onsubmit="salla.checkout.submit(event)">
+            {# Shipping Address #}
+            <h2 class="form-section-title">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                عنوان الشحن
+            </h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="first_name">الاسم الأول *</label>
+                    <input type="text" id="first_name" name="first_name" required placeholder="أدخل اسمك الأول">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">اسم العائلة *</label>
+                    <input type="text" id="last_name" name="last_name" required placeholder="أدخل اسم العائلة">
+                </div>
+                <div class="form-group full-width">
+                    <label for="phone">رقم الجوال *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="05xxxxxxxx" pattern="^05[0-9]{8}$">
+                </div>
+                <div class="form-group full-width">
+                    <label for="email">البريد الإلكتروني *</label>
+                    <input type="email" id="email" name="email" required placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="city">المدينة *</label>
+                    <select id="city" name="city" required>
+                        <option value="">اختر المدينة</option>
+                        {% for city in shipping.cities %}
+                        <option value="{{ city.id }}">{{ city.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district">الحي *</label>
+                    <input type="text" id="district" name="district" required placeholder="اسم الحي">
+                </div>
+                <div class="form-group full-width">
+                    <label for="address">العنوان التفصيلي *</label>
+                    <textarea id="address" name="address" required placeholder="رقم المبنى، الشارع، علامة مميزة..."></textarea>
+                </div>
+            </div>
+
+            {# Gift Wrapping #}
+            <label class="gift-option">
+                <input type="checkbox" name="gift_wrap" class="gift-checkbox">
+                <div>
+                    <div class="gift-title">🎁 تغليف كهدية</div>
+                    <div class="gift-desc">تغليف فاخر مع بطاقة إهداء</div>
+                </div>
+                <div class="gift-free">مجاناً</div>
+            </label>
+
+            {# Payment Methods #}
+            <div class="payment-methods">
+                <h2 class="form-section-title">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                    </svg>
+                    طريقة الدفع
+                </h2>
+
+                {% for method in payment_methods %}
+                <label class="payment-option {% if loop.first %}selected{% endif %}">
+                    <input type="radio" name="payment_method" value="{{ method.id }}" {% if loop.first %}checked{% endif %}>
+                    <div class="payment-radio"></div>
+                    <div class="payment-icon">{{ method.icon }}</div>
+                    <div>
+                        <div class="payment-name">{{ method.name }}</div>
+                        <div class="payment-desc">{{ method.description }}</div>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+
+    {# Order Summary #}
+    <aside class="order-summary">
+        <h3 class="summary-title">ملخص الطلب</h3>
+
+        {# Cart Items #}
+        {% for item in cart.items %}
+        <div class="cart-item">
+            <div class="cart-item-image">
+                <img src="{{ item.product.image }}" alt="{{ item.product.name }}">
+            </div>
+            <div style="flex:1;">
+                {% if item.product.brand %}
+                <div class="cart-item-brand">{{ item.product.brand.name }}</div>
+                {% endif %}
+                <div class="cart-item-name">{{ item.product.name }}</div>
+                <div class="cart-item-meta">
+                    {% if item.options %}
+                        {% for option in item.options %}{{ option.name }}: {{ option.value }} {% endfor %}
+                    {% endif %}
+                    | الكمية: {{ item.quantity }}
+                </div>
+            </div>
+            <div class="cart-item-price">{{ item.total }} {{ store.currency }}</div>
+        </div>
+        {% endfor %}
+
+        {# Promo Code #}
+        <div class="promo-section">
+            <div class="promo-input">
+                <input type="text" id="promo-code" placeholder="كود الخصم">
+                <button type="button" onclick="salla.cart.applyPromo(document.getElementById('promo-code').value)">تطبيق</button>
+            </div>
+        </div>
+
+        {# Totals #}
+        <div class="summary-row">
+            <span>المجموع الفرعي</span>
+            <span>{{ cart.subtotal }} {{ store.currency }}</span>
+        </div>
+        <div class="summary-row">
+            <span>الشحن</span>
+            {% if cart.shipping_cost == 0 %}
+            <span class="free-shipping">مجاني ✨</span>
+            {% else %}
+            <span>{{ cart.shipping_cost }} {{ store.currency }}</span>
+            {% endif %}
+        </div>
+        {% if cart.discount > 0 %}
+        <div class="summary-row" style="color: var(--success);">
+            <span>الخصم</span>
+            <span>-{{ cart.discount }} {{ store.currency }}</span>
+        </div>
+        {% endif %}
+        <div class="summary-row">
+            <span>الضريبة ({{ store.tax_rate }}%)</span>
+            <span>{{ cart.tax }} {{ store.currency }}</span>
+        </div>
+        <div class="summary-row total">
+            <span>الإجمالي</span>
+            <span>{{ cart.total }} {{ store.currency }}</span>
+        </div>
+
+        {# Submit Button #}
+        <button type="submit" form="checkout-form" class="checkout-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            إتمام الطلب الآن
+        </button>
+
+        {# Trust Badges #}
+        <div class="trust-section">
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>منتجات أصلية 100%</span>
+                </div>
+                <div class="trust-badge">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>توصيل 3 ساعات</span>
+                </div>
+                <div class="trust-badge">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span>إرجاع 14 يوم</span>
+                </div>
+                <div class="trust-badge">
+                    <svg fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <span>دعم 24/7</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+{# Features Banner #}
+<div class="features-banner">
+    <div class="features-grid">
+        <div class="feature">
+            <svg fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            </svg>
+            <span>تغليف هدايا مجاني</span>
+        </div>
+        <div class="feature">
+            <svg fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>توصيل سريع</span>
+        </div>
+        <div class="feature">
+            <svg fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>ضمان الأصالة</span>
+        </div>
+        <div class="feature">
+            <svg fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <span>دفع آمن</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Payment method selection
+document.querySelectorAll('.payment-option').forEach(option => {
+    option.addEventListener('click', function() {
+        document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input').checked = true;
+    });
+});
+
+// Form validation
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    const phone = document.getElementById('phone').value;
+    if (!/^05[0-9]{8}$/.test(phone)) {
+        e.preventDefault();
+        alert('يرجى إدخال رقم جوال صحيح');
+        return false;
+    }
+});
+</script>
+{% endblock %}
