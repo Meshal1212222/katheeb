@@ -4,6 +4,12 @@ const SALLA_API_URL = 'https://api.salla.dev/admin/v2';
 
 // Get Access Token
 async function getAccessToken() {
+  // Use direct access token if available
+  if (process.env.SALLA_ACCESS_TOKEN) {
+    return process.env.SALLA_ACCESS_TOKEN;
+  }
+
+  // Fallback to OAuth
   const response = await fetch('https://accounts.salla.sa/oauth2/token', {
     method: 'POST',
     headers: {
