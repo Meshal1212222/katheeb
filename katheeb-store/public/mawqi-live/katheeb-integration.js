@@ -36,21 +36,27 @@
 
   function renderProducts(products) {
     const scrollContainer = document.querySelector('.products-scroll');
+    const gridContainer = document.querySelector('.products-grid');
 
     if (scrollContainer) {
       scrollContainer.innerHTML = products.slice(0, 10).map(createProductCard).join('');
+    }
+    if (gridContainer) {
+      gridContainer.innerHTML = products.map(createProductCard).join('');
     }
   }
 
   function createProductCard(product) {
     const price = product.sale_price?.amount || product.price?.amount || 0;
+    const oldPrice = product.price?.amount;
+    const hasDiscount = product.sale_price && oldPrice && product.sale_price.amount < oldPrice;
     const image = product.thumbnail || 'https://via.placeholder.com/300';
 
-    // الرابط يفتح صفحة المنتج على katheeb مو سلة
     return `
       <a class="product-card" href="/product/${product.id}">
         <div class="product-image">
           <img src="${image}" alt="${product.name}" loading="lazy">
+          ${hasDiscount ? '<span class="product-badge sale">تخفيض</span>' : ''}
         </div>
         <div class="product-info">
           <div class="product-name">${product.name}</div>
