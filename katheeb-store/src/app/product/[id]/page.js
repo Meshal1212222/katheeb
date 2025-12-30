@@ -273,6 +273,7 @@ const MERCHANT_ID = '371583637';
 
 export default function ProductPage({ params }) {
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
@@ -286,11 +287,29 @@ export default function ProductPage({ params }) {
       const data = await response.json();
       if (data.data) {
         setProduct(data.data);
+        // جلب منتجات من نفس التصنيف
+        fetchRelatedProducts(data.data);
       }
     } catch (error) {
       console.error('Error fetching product:', error);
     }
     setLoading(false);
+  }
+
+  async function fetchRelatedProducts(currentProduct) {
+    try {
+      const response = await fetch(`${API_BASE}/api/products?merchant_id=${MERCHANT_ID}`);
+      const data = await response.json();
+      if (data.data) {
+        // فلترة المنتجات من نفس التصنيف (باستثناء المنتج الحالي)
+        const related = data.data
+          .filter(p => p.id !== currentProduct.id)
+          .slice(0, 4);
+        setRelatedProducts(related);
+      }
+    } catch (error) {
+      console.error('Error fetching related products:', error);
+    }
   }
 
   if (loading) {
@@ -435,6 +454,59 @@ export default function ProductPage({ params }) {
           </button>
         </div>
       </div>
+
+      {/* منتجات ذات صلة */}
+      {relatedProducts.length > 0 && (
+        <div style={{padding: '40px', maxWidth: '1400px', margin: '0 auto', borderTop: '1px solid #E5E5E5'}}>
+          <h2 style={{fontSize: '20px', fontWeight: '600', marginBottom: '30px', textAlign: 'center'}}>
+            منتجات قد تعجبك
+          </h2>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '20px'
+          }}>
+            {relatedProducts.map(item => {
+              const itemPrice = item.sale_price?.amount || item.price?.amount || 0;
+              const itemImage = item.thumbnail || 'https://via.placeholder.com/300';
+              return (
+                <Link 
+                  key={item.id} 
+                  href={`/product/${item.id}`}
+                  style={{textDecoration: 'none', color: 'inherit'}}
+                >
+                  <div style={{
+                    background: 'white',
+                    cursor: 'pointer',
+                    transition: 'transform 0.3s'
+                  }}>
+                    <div style={{
+                      aspectRatio: '1',
+                      background: '#F5F5F5',
+                      overflow: 'hidden',
+                      marginBottom: '10px'
+                    }}>
+                      <img
+                        src={itemImage}
+                        alt={item.name}
+                        style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                      />
+                    </div>
+                    <div style={{padding: '10px 0'}}>
+                      <div style={{fontSize: '13px', color: '#666', marginBottom: '5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                        {item.name}
+                      </div>
+                      <div style={{fontSize: '15px', fontWeight: '600', color: '#C9A96E'}}>
+                        {itemPrice.toFixed(2)} ر.س
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <footer className="footer">
         <div className="footer-inner">
