@@ -1,12 +1,13 @@
 /**
  * موقعي لايف - تكامل مع موقع كثيب
+ * Headless Commerce - سلة كـ Backend
  */
 
 (function() {
   const MERCHANT_ID = '371583637';
   const API_BASE = 'https://wepsitelive-production.up.railway.app';
 
-  // تشغيل مباشر أو انتظار DOM
+  // تشغيل مباشر
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -22,6 +23,10 @@
 
       if (data.data) {
         console.log(`✅ تم جلب ${data.data.length} منتج`);
+        
+        // حفظ المنتجات للاستخدام لاحقاً
+        window.MAWQI_PRODUCTS = data.data;
+        
         renderProducts(data.data);
       }
     } catch (error) {
@@ -41,8 +46,9 @@
     const price = product.sale_price?.amount || product.price?.amount || 0;
     const image = product.thumbnail || 'https://via.placeholder.com/300';
 
+    // الرابط يفتح صفحة المنتج على katheeb مو سلة
     return `
-      <a class="product-card" href="${product.urls?.customer || '#'}" target="_blank">
+      <a class="product-card" href="/product/${product.id}">
         <div class="product-image">
           <img src="${image}" alt="${product.name}" loading="lazy">
         </div>
