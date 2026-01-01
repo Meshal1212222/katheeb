@@ -186,40 +186,50 @@
     },
 
     // ==================== الدفع عبر سلة ====================
-    checkout() {
+    async checkout() {
       if (this.items.length === 0) {
         this.showNotification('السلة فارغة!');
         return;
       }
 
-      // طريقة 1: فتح صفحة السلة في متجر سلة مع المنتجات
-      // نفتح أول منتج ثم المستخدم يضيف الباقي
-      // هذه الطريقة الأبسط بدون API token
-
-      // طريقة 2: إنشاء رابط سلة مع كل المنتجات (يحتاج Salla API)
-
       this.showNotification('جاري التحويل لبوابة الدفع...');
 
-      // بناء رابط الدفع
-      // إذا كان متجر سلة يدعم إضافة منتجات عبر الرابط:
-      const checkoutUrl = this.buildCheckoutUrl();
+      try {
+        // تحضير المنتجات للإرسال
+        const checkoutItems = this.items.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity
+        }));
 
-      setTimeout(() => {
-        window.open(checkoutUrl, '_blank');
-      }, 500);
-    },
+        // إرسال الطلب لـ API
+        const response = await fetch(`${API_BASE}/api/checkout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            merchant_id: MERCHANT_ID,
+            items: checkoutItems
+          })
+        });
 
-    buildCheckoutUrl() {
-      // الطريقة الأساسية: فتح صفحة المنتج الأول
-      // لإضافة كل المنتجات تحتاج Salla Cart API
+        const data = await response.json();
 
-      if (this.items.length === 1) {
-        return this.items[0].salla_url;
+        if (data.success && data.checkout_url) {
+          // فتح صفحة الدفع في سلة
+          window.open(data.checkout_url, '_blank');
+          // إفراغ السلة بعد التحويل للدفع
+          // this.clear(); // يمكن تفعيلها لاحقاً
+        } else if (data.checkout_url) {
+          window.open(data.checkout_url, '_blank');
+        } else {
+          this.showNotification('حدث خطأ، حاول مرة أخرى');
+          console.error('Checkout error:', data);
+        }
+      } catch (error) {
+        console.error('Checkout error:', error);
+        this.showNotification('حدث خطأ في الاتصال');
       }
-
-      // إذا أكثر من منتج، نفتح صفحة المتجر الرئيسية
-      // أو يمكن استخدام Salla API لإضافة المنتجات للسلة
-      return this.items[0].salla_url;
     }
   };
 
